@@ -1,7 +1,7 @@
-name: "unguarded_x_journal_club"
+name: unguarded_x_journal_club
 output_dir: ../docs
 navbar:
-  title: "unguarded_x_journal_club"
+  title: unguarded_x_journal_club
   left:
   - text: Home
     href: index.html
@@ -9,6 +9,10 @@ navbar:
     href: about.html
   - text: License
     href: license.html
+  right:
+  - icon: fa-github
+    text: Source code
+    href: https://github.com/IJbeasley/unguarded_x_journal_club
 output:
   workflowr::wflow_html:
     toc: yes
