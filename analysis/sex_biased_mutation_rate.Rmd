@@ -1,23 +1,26 @@
 ---
 title: "Sex biased mutation rate"
-author: "Isobel Beasley"
-date: "2021-12-08"
+author: "Isobel Beasley & 	Yasmine McDonough"
 output: workflowr::wflow_html
 editor_options:
   chunk_output_type: console
 ---
 
+## Set up
+
 ```{r setup}
+
+library(ggplot2)
+suppressMessages(library(dplyr))
+library(reactable)
+
 # only look at public sheets - so no authentication is needed
 googlesheets4::gs4_deauth()
 
 # read in sex bias mutation data.frame
 sex_bias_mut_df = googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/10ZVgeGlDpEnPG-4zLLrSBQjF7p2_9hzzIMPuIRuvogg/edit#gid=537547888", range = "Alpha Estimates (each row is a single estimate)")
 
-head(sex_bias_mut_df)
-
-library(ggplot2)
-suppressMessages(library(dplyr))
+head(sex_bias_mut_df) %>% reactable()
 
 # Set up custom theme for ggplots
 custom_theme <-
@@ -37,15 +40,40 @@ custom_theme <-
 
 ## Number of estimates per taxonomic class
 
-```{r taxo_class}
+```{r n_by_taxo_class}
 
 sex_bias_mut_df %>% 
   group_by(taxonomic_class) %>% 
-  summarise(n = n())
+  summarise(n = n()) %>% 
+  reactable()
 
 ```
 
-## Distribution of sex-biased mutation estimates
+## Number of estimates per method used to calculate the sex-biased mutation rate
+
+```{r n_by_method}
+
+sex_bias_mut_df %>% 
+  group_by(method_used_to_calculate_alpha) %>% 
+  summarise(n = n()) %>% 
+  reactable(defaultPageSize = 50)
+
+```
+
+## Number of estimates by both taxonomic class and method used to calculate
+
+```{r n_by_method_and_taxo_class}
+
+sex_bias_mut_df %>% 
+  group_by(taxonomic_class,method_used_to_calculate_alpha) %>% 
+  summarise(n = n()) %>% 
+  reactable(defaultPageSize = 50)
+
+```
+
+# Distribution of sex-biased mutation estimates
+
+## Across all taxonomic classes
 
 ```{r dist_sex_est, fig.height = 8, fig.width = 12}
 
@@ -59,13 +87,28 @@ sex_bias_mut_df %>%
   geom_vline(xintercept = 1, col = "red", linetype = 2) + 
   annotate(
   "text",
-  x = 5,
-  y = 40,
+  x = 3,
+  y = 35,
   size = 9,
   hjust = 0,
   col = "red", 
   label = "Line of equal mutation rate across the sexes"
 )
+
+summary(sex_bias_mut_df$alpha_point_estimate)
+
+sex_bias_mut_df %>% 
+  ggplot(aes(x=alpha_point_estimate)) +
+  geom_boxplot() + 
+  custom_theme+ 
+   labs(title = "Distribution of estimated sex-biased mutation rate",
+        x = "Point estimate of the male-biased mutation rate (alpha)") 
+
+```
+
+## By Taxonomic Class
+
+```{r sex_bias_by_taxo_class, fig.height = 8, fig.width = 12}
 
 sex_bias_mut_df %>% 
   ggplot(aes(x=alpha_point_estimate)) + 
@@ -77,11 +120,15 @@ sex_bias_mut_df %>%
   geom_vline(xintercept = 1, col = "red", linetype = 2) + 
   facet_wrap(~taxonomic_class)
 
-summary(sex_bias_mut_df$alpha_point_estimate)
+```
 
+## By method used to calculate estimate of male-biased mutation rate
+
+```{r sex_bias_by_method, fig.height=10, fig.width = 15}
 sex_bias_mut_df %>% 
-  ggplot(aes(x=alpha_point_estimate)) +
-  geom_boxplot() + 
-  custom_theme
-
+  ggplot(aes(x=alpha_point_estimate)) + 
+  geom_histogram() + 
+  custom_theme + 
+  facet_wrap(~method_used_to_calculate_alpha) + 
+  theme(text = element_text(size = 8))
 ```
