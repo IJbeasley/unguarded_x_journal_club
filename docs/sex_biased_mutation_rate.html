@@ -385,7 +385,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-12-08
+<strong>Last updated:</strong> 2021-12-09
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -476,16 +476,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomIJbeasleyunguardedxjournalclubtree3d510d6591fc35cef8002fa2a0e7c943ae8f0825targetblank3d510d6a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/IJbeasley/unguarded_x_journal_club/tree/3d510d6591fc35cef8002fa2a0e7c943ae8f0825" target="_blank">3d510d6</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomIJbeasleyunguardedxjournalclubtreeaf37ec4651e5ccfba01105d4a7f34705e626152etargetblankaf37ec4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/IJbeasley/unguarded_x_journal_club/tree/af37ec4651e5ccfba01105d4a7f34705e626152e" target="_blank">af37ec4</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomIJbeasleyunguardedxjournalclubtree3d510d6591fc35cef8002fa2a0e7c943ae8f0825targetblank3d510d6a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomIJbeasleyunguardedxjournalclubtreeaf37ec4651e5ccfba01105d4a7f34705e626152etargetblankaf37ec4a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/IJbeasley/unguarded_x_journal_club/tree/3d510d6591fc35cef8002fa2a0e7c943ae8f0825" target="_blank">3d510d6</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/IJbeasley/unguarded_x_journal_club/tree/af37ec4651e5ccfba01105d4a7f34705e626152e" target="_blank">af37ec4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -529,6 +529,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/IJbeasley/unguarded_x_journal_club/blob/af37ec4651e5ccfba01105d4a7f34705e626152e/analysis/sex_biased_mutation_rate.Rmd" target="_blank">af37ec4</a>
+</td>
+<td>
+Isobel Beasley
+</td>
+<td>
+2021-12-09
+</td>
+<td>
+Include dist of sex bias est by taxo class
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/IJbeasley/unguarded_x_journal_club/31b9e9f0e0a8bc240273392f2566dd65e5b12f1e/docs/sex_biased_mutation_rate.html" target="_blank">31b9e9f</a>
+</td>
+<td>
+Isobel Beasley
+</td>
+<td>
+2021-12-08
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -595,33 +629,26 @@ sex_bias_mut_df = googlesheets4::read_sheet(&quot;https://docs.google.com/spread
 <pre><code>v Reading from &quot;Sex_bias_mutation_rate&quot;.</code></pre>
 <pre><code>v Range &#39;&#39;Alpha Estimates (each row is a single estimate)&#39;&#39;.</code></pre>
 <pre><code>New names:
-* `` -&gt; ...11
-* `` -&gt; ...12
-* `` -&gt; ...13</code></pre>
+* `` -&gt; ...13
+* `` -&gt; ...14</code></pre>
 <pre class="r"><code>head(sex_bias_mut_df)</code></pre>
-<pre><code># A tibble: 6 x 13
-  authors   year animal_name  scientific_name  alpha_point_est~ alpha_estimate_~
-  &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;                       &lt;dbl&gt;            &lt;dbl&gt;
-1 Makova ~  2002 Primates (H~ Homo sapiens;Go~             5.25             2.44
-2 Ellegre~  2003 Salmonid Fi~ Oncorhynchus ki~             5.98             5.35
-3 Bartosc~  2003 Birds (Pass~ Agelaius phoeni~             3.48             2.34
-4 Bartosc~  2003 Birds (Pass~ Cyanistes caeru~             2.43             1.67
-5 Bartosc~  2003 Birds (Pass~ Erithacus rubec~             1.7              0.88
-6 Bartosc~  2003 Birds (Char~ Stercorarius an~             4.74             3.42
-# ... with 7 more variables: alpha_estimate_upper &lt;list&gt;,
-#   method_used_to_calculate_alpha &lt;chr&gt;, upper_lower_meaning &lt;chr&gt;,
-#   other_notes &lt;chr&gt;, ...11 &lt;lgl&gt;, ...12 &lt;chr&gt;, ...13 &lt;chr&gt;</code></pre>
+<pre><code># A tibble: 6 x 14
+  authors   year taxonomic_class animal_name   scientific_name  alpha_point_est~
+  &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;         &lt;chr&gt;                       &lt;dbl&gt;
+1 Makova ~  2002 Mammalia        Primates (Hu~ Homo sapiens;Go~             5.25
+2 Ellegre~  2003 Actinopterygii  Salmonid Fish Oncorhynchus ki~             5.98
+3 Bartosc~  2003 Aves            Birds (Passe~ Agelaius phoeni~             3.48
+4 Bartosc~  2003 Aves            Birds (Passe~ Cyanistes caeru~             2.43
+5 Bartosc~  2003 Aves            Birds (Passe~ Erithacus rubec~             1.7 
+6 Bartosc~  2003 Aves            Birds (Chara~ Stercorarius an~             4.74
+# ... with 8 more variables: alpha_estimate_lower &lt;dbl&gt;,
+#   alpha_estimate_upper &lt;dbl&gt;, method_used_to_calculate_alpha &lt;chr&gt;,
+#   upper_lower_meaning &lt;chr&gt;, other_notes &lt;chr&gt;, Loci &lt;chr&gt;, ...13 &lt;chr&gt;,
+#   ...14 &lt;chr&gt;</code></pre>
 <pre class="r"><code>library(ggplot2)
-library(dplyr)</code></pre>
-<pre><code>
-Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>The following objects are masked from &#39;package:stats&#39;:
+suppressMessages(library(dplyr))
 
-    filter, lag</code></pre>
-<pre><code>The following objects are masked from &#39;package:base&#39;:
-
-    intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code># Set up custom theme for ggplots
+# Set up custom theme for ggplots
 custom_theme &lt;-
   list(
     theme_bw() +
@@ -634,11 +661,26 @@ custom_theme &lt;-
         axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)
       )
   )</code></pre>
+<div id="number-of-estimates-per-taxonomic-class" class="section level2">
+<h2>Number of estimates per taxonomic class</h2>
+<pre class="r"><code>sex_bias_mut_df %&gt;% 
+  group_by(taxonomic_class) %&gt;% 
+  summarise(n = n())</code></pre>
+<pre><code># A tibble: 6 x 2
+  taxonomic_class     n
+  &lt;chr&gt;           &lt;int&gt;
+1 Actinopterygii      1
+2 Amphibia            2
+3 Arachnida           2
+4 Aves               72
+5 Mammalia           60
+6 Reptilia            5</code></pre>
+</div>
 <div id="distribution-of-sex-biased-mutation-estimates" class="section level2">
 <h2>Distribution of sex-biased mutation estimates</h2>
 <pre class="r"><code>sex_bias_mut_df %&gt;% 
   ggplot(aes(x=alpha_point_estimate)) + 
-  geom_histogram() + 
+  geom_histogram(bins = 50) + 
   labs(title = &quot;Distribution of estimated sex-biased mutation rate&quot;,
         x = &quot;Point estimate of the male-biased mutation rate (alpha)&quot;,
        y= &quot;Count&quot;) + 
@@ -653,16 +695,25 @@ custom_theme &lt;-
   col = &quot;red&quot;, 
   label = &quot;Line of equal mutation rate across the sexes&quot;
 )</code></pre>
-<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="figure/sex_biased_mutation_rate.Rmd/dist_sex_est-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/sex_biased_mutation_rate.Rmd/dist_sex_est-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>sex_bias_mut_df %&gt;% 
+  ggplot(aes(x=alpha_point_estimate)) + 
+  geom_histogram(bins = 25) + 
+  labs(title = &quot;Distribution of estimated sex-biased mutation rate&quot;,
+        x = &quot;Point estimate of the male-biased mutation rate (alpha)&quot;,
+       y= &quot;Count&quot;) + 
+  custom_theme + 
+  geom_vline(xintercept = 1, col = &quot;red&quot;, linetype = 2) + 
+  facet_wrap(~taxonomic_class)</code></pre>
+<p><img src="figure/sex_biased_mutation_rate.Rmd/dist_sex_est-2.png" width="1152" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>summary(sex_bias_mut_df$alpha_point_estimate)</code></pre>
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
- 0.0283  2.0075  2.3650  2.8238  3.0425 20.0900 </code></pre>
+ 0.0283  2.0025  2.3852  2.8962  3.3100 20.0900 </code></pre>
 <pre class="r"><code>sex_bias_mut_df %&gt;% 
   ggplot(aes(x=alpha_point_estimate)) +
   geom_boxplot() + 
   custom_theme</code></pre>
-<p><img src="figure/sex_biased_mutation_rate.Rmd/dist_sex_est-2.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/sex_biased_mutation_rate.Rmd/dist_sex_est-3.png" width="1152" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
