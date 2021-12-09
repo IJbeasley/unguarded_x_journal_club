@@ -17,7 +17,7 @@ sex_bias_mut_df = googlesheets4::read_sheet("https://docs.google.com/spreadsheet
 head(sex_bias_mut_df)
 
 library(ggplot2)
-library(dplyr)
+suppressMessages(library(dplyr))
 
 # Set up custom theme for ggplots
 custom_theme <-
@@ -35,13 +35,23 @@ custom_theme <-
 
 ```
 
+## Number of estimates per taxonomic class
+
+```{r taxo_class}
+
+sex_bias_mut_df %>% 
+  group_by(taxonomic_class) %>% 
+  summarise(n = n())
+
+```
+
 ## Distribution of sex-biased mutation estimates
 
-```{r dist_sex_est, fig.height = 8, fig.width = 10}
+```{r dist_sex_est, fig.height = 8, fig.width = 12}
 
 sex_bias_mut_df %>% 
   ggplot(aes(x=alpha_point_estimate)) + 
-  geom_histogram() + 
+  geom_histogram(bins = 50) + 
   labs(title = "Distribution of estimated sex-biased mutation rate",
         x = "Point estimate of the male-biased mutation rate (alpha)",
        y= "Count") + 
@@ -56,6 +66,16 @@ sex_bias_mut_df %>%
   col = "red", 
   label = "Line of equal mutation rate across the sexes"
 )
+
+sex_bias_mut_df %>% 
+  ggplot(aes(x=alpha_point_estimate)) + 
+  geom_histogram(bins = 25) + 
+  labs(title = "Distribution of estimated sex-biased mutation rate",
+        x = "Point estimate of the male-biased mutation rate (alpha)",
+       y= "Count") + 
+  custom_theme + 
+  geom_vline(xintercept = 1, col = "red", linetype = 2) + 
+  facet_wrap(~taxonomic_class)
 
 summary(sex_bias_mut_df$alpha_point_estimate)
 
