@@ -1,0 +1,96 @@
+---
+title: "sex_bias_mutation_pooled_estimates"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(reactable)
+library(tidyverse)
+library(ggplot2)
+library(reshape2)
+googlesheets4::gs4_deauth()
+sex_bias_mut_df = googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/10ZVgeGlDpEnPG-4zLLrSBQjF7p2_9hzzIMPuIRuvogg/edit#gid=537547888", range = "Alpha Estimates (each row is a single estimate)")
+```
+
+## Estimates by taxonomic group and method used
+
+#Compute per study parameters
+
+```{r taxon and method}
+#Compute per study parameters
+parameter_table<-sex_bias_mut_df %>% 
+  filter(alpha_estimate_upper!="NA")%>% #Remove studies without CI
+  mutate(w=1/(((alpha_estimate_upper-alpha_estimate_lower)/3.92)^2))%>% #Weight
+  mutate(yw=w*alpha_point_estimate)%>% #Weighted estimate
+  mutate(cnt=1)#Counter
+
+#Compute estimated mean per grouping
+mean_table<-parameter_table%>%
+  #aggregate(cbind(w,yw)~taxonomic_class,.,FUN=sum)%>%
+  aggregate(cbind(w,yw)~taxonomic_class+method_used_to_calculate_alpha,.,FUN=sum)%>%
+  mutate(est.mean=yw/w)%>%#estimated means
+  select(taxonomic_class,method_used_to_calculate_alpha,est.mean)
+
+#Compute heterogeneity parameters per grouping
+variance_table<-merge(parameter_table,mean_table,by=c("taxonomic_class","method_used_to_calculate_alpha"))%>%
+  mutate(Q.step=(w*(alpha_point_estimate-est.mean)^2))%>%
+  aggregate(cbind(Q.step,cnt,w)~taxonomic_class+method_used_to_calculate_alpha,.,FUN=sum)%>%
+  mutate(phi=Q.step/(cnt-1))%>%#heterogeneity measure
+  mutate(est.var=phi/w)#estimated variances
+
+#Summarise estimates
+est.df<-merge(mean_table,variance_table,by=c("taxonomic_class","method_used_to_calculate_alpha"))%>%
+  mutate(est.se=sqrt(est.var/cnt))%>% #standard error
+  mutate(est.cil=est.mean-1.96*est.se)%>% #lower 95% CI
+  mutate(est.ciu=est.mean+1.96*est.se)%>% #upper 95% CI
+  select(taxonomic_class,method_used_to_calculate_alpha,cnt,est.mean,est.var,est.se,est.cil,est.ciu)
+
+head(est.df)%>%reactable(defaultPageSize = 50)
+```
+
+
+
+```{r plot, echo=FALSE,fig.height = 8, fig.width = 12}
+ggplot(est.df, aes(x=taxonomic_class, y=est.mean,fill=method_used_to_calculate_alpha)) +
+  geom_bar(stat="identity", alpha=0.7,position=position_dodge(0.9))+
+  labs(title = "Male-biased mutation rate across taxonomic groups",
+       x = "Taxonomic class",
+       y= "Male-biased mutation rate (alpha)",
+       fill="Method used to calculate alpha")
+```
+
+##Estimates by taxonomic group only
+
+```{r}
+#Compute estimated mean per grouping
+mean_table2<-parameter_table%>%
+  aggregate(cbind(w,yw)~taxonomic_class,.,FUN=sum)%>%
+  mutate(est.mean=yw/w)%>%#estimated means
+  select(taxonomic_class,est.mean)
+
+#Compute heterogeneity parameters per grouping
+variance_table2<-merge(parameter_table,mean_table2,by="taxonomic_class")%>%
+  mutate(Q.step=(w*(alpha_point_estimate-est.mean)^2))%>%
+  aggregate(cbind(Q.step,cnt,w)~taxonomic_class,.,FUN=sum)%>%
+  mutate(phi=Q.step/(cnt-1))%>%#heterogeneity measure
+  mutate(est.var=phi/w)#estimated variances
+
+#Summarise estimates
+est.df2<-merge(mean_table2,variance_table2,by=c("taxonomic_class"))%>%
+  mutate(est.se=sqrt(est.var/cnt))%>% #standard error
+  mutate(est.cil=est.mean-1.96*est.se)%>% #lower 95% CI
+  mutate(est.ciu=est.mean+1.96*est.se)%>% #upper 95% CI
+  select(taxonomic_class,cnt,est.mean,est.var,est.se,est.cil,est.ciu)
+
+head(est.df2)%>%reactable(defaultPageSize = 50)
+```
+
+```{r}
+ggplot(est.df2) +
+  geom_bar( aes(x=taxonomic_class, y=est.mean), stat="identity", alpha=0.7) +
+  geom_errorbar( aes(x=taxonomic_class, ymin=est.cil, ymax=est.ciu), width=0.4, colour="orange", alpha=0.9, size=0.5)+
+  labs(title = "Male-biased mutation rate across taxonomic groups",
+       x = "Taxonomic class",
+       y= "Male-biased mutation rate (alpha)")
+```
+
