@@ -14,4 +14,4 @@ editor_options:
 
 [Sex biased mutation rate study information and basic overview](sex_biased_mutation_rate.html)
 
-[Sex biased pooled mutation rate estimtates](sex_bias_mutation_pooled_estimates.Rmd)
+[Sex biased pooled mutation rate estimtates](sex_bias_mutation_pooled_estimates.html)
