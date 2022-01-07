@@ -10,8 +10,14 @@ editor_options:
 
 # Unguarded X Effect Journal Club Project
 
+### Introduction:
+
+
+
 ### Analyses: 
 
 [Sex biased mutation rate study information and basic overview](sex_biased_mutation_rate.html)
 
 [Sex biased pooled mutation rate estimtates](sex_bias_mutation_pooled_estimates.html)
+
+[Impact of changing different parameters in the unguarded effects model](parameter_in_unguarded_effects_model.html)
