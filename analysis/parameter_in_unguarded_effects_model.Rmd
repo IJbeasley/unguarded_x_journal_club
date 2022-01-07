@@ -1,0 +1,163 @@
+---
+title: "Changing parameters in the model of unguarded X effects"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup}
+
+library(ggplot2)
+library(dplyr)
+
+
+# Set up custom theme for ggplots
+custom_theme <-
+  list(
+    theme_bw() +
+      theme(
+        panel.border = element_blank(),
+        axis.line = element_line(),
+        text = element_text(size = 25),
+        legend.position = "bottom",
+        strip.background = element_blank(),
+        axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)
+      )
+  )
+
+```
+
+### Starting assumptions – Effects under sex-equal mutation and selection: 
+
+
+ $s_{f,i} = s_{m,i}$  and $\mu_{f,i} = \mu{m,i}$, with $h_{i}$, $\mu_{j,i}$, and $\alpha_i$ independently distributed. 
+ 
+ 
+$$\frac{{\bar{W}}_{f,X}}{{\bar{W}}_{m,X}}\approx\exp{\left(\sum_{i=1}^{n_X}{\left(s_{m,i}\alpha_{m,i}-2h_is_{f,i}\alpha_{f,i}\right)\frac{2\mu_{f,i}+\mu_{m,i}}{2h_is_{f,i}+s_{m,i}}}\right)}$$
+
+
+```{r first_eq}
+
+sex_bias_survive_ratio = function(s_m,
+                                  s_f,
+                                  alpha_m,
+                                  alpha_f,
+                                  mu_f,
+                                  mu_m,
+                                  h){
+  
+return(
+  
+exp(
+    sum(
+         (s_m*alpha_m - 2*h*s_f*alpha_f)*(2*mu_f+mu_m)/(2*h*s_f+s_m)
+                                                                    )
+                                                                      )
+  
+)
+  
+}
+
+
+```
+
+### Effects of sex-biased purifying selection
+
+
+
+Assuming that mutations similarly affect viability in each sex ($\alpha_{f,i},s_{f,i}=\alpha_{m,i}s_{m,i}$), and  $$ \beta = \frac{s_{m,i}}{s_{f,i}} = \frac{\alpha_{f,i}}{\alpha_{m,i}} $$ is relatively constant among mutations affecting viability, we can generalize to cases involving sex-biased purifying selection (i.e., $\beta \neq 1$):
+
+$$ \frac{{\bar{W}}_{f,X}}{{\bar{W}}_{m,X}}\approx\exp{\left(3U_X\bar{\alpha}\left(\frac{1-2\bar{h}}{1+2\bar{h}}+\frac{8var{\left(h\right)}}{\left(1+2\bar{h}\right)^3}\right)\right)} $$
+
+
+```{r second_eq}
+
+
+sex_bias_survive_ratio_2 = function(u_x,
+                                    alpha_hat,
+                                    h){
+  
+  h_hat = mean(h)
+  
+  w_ratio = exp(
+    
+                3*u_x*alpha_hat*(
+                                (1-h_hat)/(1+h_hat) + 
+                                                      (8*var(h))/((1+2*h_hat)^3) 
+                                                                                 )
+  
+                                                                                   )  
+
+
+return(
+        data.frame(w_ratio = w_ratio,
+                   alpha_hat = alpha_hat, 
+                   var_h = var(h),
+                   h_hat = h_hat,
+                   u_x = u_x) 
+)
+  
+}
+
+
+sex_bias_survive_ratio_2(u_x = 0.1, 
+                         alpha_hat = seq(from = 0, to = 1, by = 0.001), 
+                         h = rep(1,100)) %>% 
+  ggplot(aes(x=alpha_hat,y=w_ratio)) + 
+  geom_point() + 
+  custom_theme
+
+
+
+sex_bias_survive_ratio_2(u_x = 0.1, 
+                         alpha_hat = seq(from = 0, to = 1, by = 0.01), 
+                         h = rep(0,100)) %>% 
+  ggplot(aes(x=alpha_hat,y=w_ratio)) + 
+  geom_point() + 
+  custom_theme
+
+```
+
+
+$$ \frac{{\bar{W}}_{f,X}}{{\bar{W}}_{m,X}}\approx\exp{\left(3U_X\frac{{\bar{\alpha}}_f\left(1-2\bar{h}\right)}{\beta+2\bar{h}}\left(1+\frac{4var{\left(h\right)}\left(\beta+1\right)}{\left(1-2\bar{h}\right)\left(\beta+2\bar{h}\right)^2}\right)\right)} $$
+
+```{r third_eq}
+
+sex_bias_survive_ratio_3 = function(u_x,
+                                    alpha_hat_f,
+                                    h,
+                                    beta){
+  
+  h_hat = mean(h)
+  
+  
+return(
+  exp(
+  3*
+    u_x*(
+          (
+            (alpha_hat_f)*(1-2*h_hat)
+                                      )/(
+                                          beta + 2*h_hat
+                                                         )
+                                                          )*
+    (1 + 
+         (
+           (4*var(h))(beta+1)
+                              )/(
+                                   (1-2*h_hat)*(
+                                                  (beta + 2*h_hat)^2)
+                                                                      )
+                                                                       )
+  
+  )
+)
+  
+                                    }
+
+```
+
+
