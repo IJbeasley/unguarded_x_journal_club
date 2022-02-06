@@ -1,0 +1,90 @@
+---
+title: "Sex biased mutation rate"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+# Set up
+
+```{r setup}
+
+library(ggplot2)
+suppressMessages(library(dplyr))
+library(reactable)
+
+# only look at public sheets - so no authentication is needed
+googlesheets4::gs4_deauth()
+
+# read in sex bias mutation data.frame
+sex_bias_mut_df = googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/10ZVgeGlDpEnPG-4zLLrSBQjF7p2_9hzzIMPuIRuvogg/edit#gid=537547888", range = "Sex-bias estimates")
+
+# what does the sex bias in mutation rate estimate look like: 
+head(sex_bias_mut_df) %>% reactable()
+
+# Set up custom theme for ggplots
+custom_theme <-
+  list(
+    theme_bw() +
+      theme(
+        panel.border = element_blank(),
+        axis.line = element_line(),
+        text = element_text(size = 16),
+        legend.position = "bottom",
+        strip.background = element_blank(),
+        axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)
+      )
+  )
+
+```
+
+# Final figure for the unguarded X paper
+
+## First we 
+
+```{r figure_for_the_paer}
+## By Taxonomic Class
+
+df= sex_bias_mut_df %>% 
+  filter(alpha_point_estimate<20) %>% 
+  ggplot(aes(x=alpha_point_estimate)) + 
+  geom_histogram(bins = 25) + 
+  labs(title = "Distribution of sex-biased mutation rate estimtates",
+        x = "Point estimate of the male-biased mutation rate (alpha)",
+       y= "Number of estimates") + 
+  custom_theme + 
+  geom_vline(xintercept = 1, col = "red", linetype = 2, size = 2) + 
+  facet_wrap(~taxonomic_class)
+
+n_by_taxa = sex_bias_mut_df %>% 
+            group_by(taxonomic_class) %>% 
+            summarise(n = n()) 
+
+
+df_2 = sex_bias_mut_df %>%   
+  select(authors,year,scientific_name) %>% 
+  distinct() %>% 
+  ggplot(aes(x=year)) + 
+  geom_histogram() + 
+  custom_theme  + 
+  labs(x = "Year published*",
+       y = "Number of estimates",
+       title = "How many unique estimates per year?")
+
+
+df_3 = sex_bias_mut_df %>%   
+  select(authors,year) %>% 
+  distinct() %>% 
+  ggplot(aes(x=year)) + 
+  geom_histogram() + 
+  custom_theme  + 
+  labs(x = "Year published*",
+       y = "Number of studies",
+       title = "What year were our collated studies published?")
+
+
+library(patchwork)
+
+(df) / (df_2 + df_3)
+
+```
