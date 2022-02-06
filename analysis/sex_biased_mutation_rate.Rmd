@@ -6,6 +6,8 @@ editor_options:
   chunk_output_type: console
 ---
 
+**Introduction** This workflowr page contains investigations into  Additionally - it illustrates how we produced Figure 1 for the paper. 
+
 # Set up
 
 ```{r setup}
@@ -13,12 +15,13 @@ editor_options:
 library(ggplot2)
 suppressMessages(library(dplyr))
 library(reactable)
+library(tidyr)
 
 # only look at public sheets - so no authentication is needed
 googlesheets4::gs4_deauth()
 
 # read in sex bias mutation data.frame
-sex_bias_mut_df = googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/10ZVgeGlDpEnPG-4zLLrSBQjF7p2_9hzzIMPuIRuvogg/edit#gid=537547888", range = "Alpha Estimates (each row is a single estimate)")
+sex_bias_mut_df = googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/10ZVgeGlDpEnPG-4zLLrSBQjF7p2_9hzzIMPuIRuvogg/edit#gid=537547888", range = "Sex-bias estimates")
 
 # what does the sex bias in mutation rate estimate look like: 
 head(sex_bias_mut_df) %>% reactable()
@@ -30,7 +33,7 @@ custom_theme <-
       theme(
         panel.border = element_blank(),
         axis.line = element_line(),
-        text = element_text(size = 25),
+        text = element_text(size = 16),
         legend.position = "bottom",
         strip.background = element_blank(),
         axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)
@@ -117,7 +120,7 @@ sex_bias_mut_df %>%
 ```{r n_by_loci_type}
 
 sex_bias_mut_df %>% 
-  group_by(loci_for_estimate) %>% 
+  group_by(loci_type_for_estimate) %>% 
   summarise(n = n()) %>% 
   reactable(defaultPageSize = 50)
 
@@ -127,9 +130,10 @@ sex_bias_mut_df %>%
   group_by(authors,year) %>% 
   sample_n(1) %>% 
   ungroup() %>% 
-  group_by(taxonomic_class,loci_for_estimate) %>% 
+  group_by(taxonomic_class,loci_type_for_estimate) %>% 
   summarise(n = n()) %>% 
   reactable(defaultPageSize = 50)
+
 ```
 
 ## Number of estimates by both taxonomic class and method used to calculate
@@ -189,7 +193,7 @@ sex_bias_mut_df %>%
   geom_histogram(bins = 50) + 
   labs(title = "Distribution of estimated sex-biased mutation rate",
         x = "Point estimate of the male-biased mutation rate (alpha)",
-       y= "Count") + 
+       y= "Number of estimates") + 
   custom_theme + 
   geom_vline(xintercept = 1, col = "red", linetype = 2, size = 2) + 
   annotate(
@@ -209,15 +213,48 @@ sex_bias_mut_df %>%
 
 ```{r sex_bias_by_taxo_class, fig.height = 8, fig.width = 12}
 
-sex_bias_mut_df %>% 
+df= sex_bias_mut_df %>% 
+  filter(alpha_point_estimate<20) %>% 
   ggplot(aes(x=alpha_point_estimate)) + 
   geom_histogram(bins = 25) + 
-  labs(title = "Distribution of estimated sex-biased mutation rate",
+  labs(title = "Distribution of sex-biased mutation rate estimtates",
         x = "Point estimate of the male-biased mutation rate (alpha)",
-       y= "Count") + 
+       y= "Number of estimates") + 
   custom_theme + 
   geom_vline(xintercept = 1, col = "red", linetype = 2, size = 2) + 
   facet_wrap(~taxonomic_class)
+
+n_by_taxa = sex_bias_mut_df %>% 
+            group_by(taxonomic_class) %>% 
+            summarise(n = n()) 
+
+library(gridExtra)
+
+df_2 = sex_bias_mut_df %>%   
+  select(authors,year,scientific_name) %>% 
+  distinct() %>% 
+  ggplot(aes(x=year)) + 
+  geom_histogram() + 
+  custom_theme  + 
+  labs(x = "Year published*",
+       y = "Number of estimates",
+       title = "How many unique estimates per year?")
+
+
+df_3 = sex_bias_mut_df %>%   
+  select(authors,year) %>% 
+  distinct() %>% 
+  ggplot(aes(x=year)) + 
+  geom_histogram() + 
+  custom_theme  + 
+  labs(x = "Year published*",
+       y = "Number of studies",
+       title = "What year were our collated studies published?")
+
+
+library(patchwork)
+
+(df) / (df_2 + df_3)
 
 ```
 
@@ -236,3 +273,25 @@ sex_bias_mut_df %>%
        y= "Count")
 
 ```
+
+## Confidence intervals - 
+
+```{r}
+
+df= sex_bias_mut_df %>% 
+  filter(upper_lower_meaning == "Lower and upper estimates are the 95% confidence interval for alpha"|
+         upper_lower_meaning == "Lower and upper estimates are 2 standard errors from the mean (rough 95% confidence interval)") %>% 
+  mutate(se = (alpha_estimate_upper - alpha_point_estimate)/2) 
+
+
+df %>% 
+  select(taxonomic_class,se) %>% 
+  mutate(row = row_number()) %>% 
+  pivot_wider(names_from = taxonomic_class,
+              values_from = se,
+              values_fn = list)
+
+```
+
+
+
