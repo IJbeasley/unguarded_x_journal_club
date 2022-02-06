@@ -389,7 +389,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-12-10
+<strong>Last updated:</strong> 2022-02-06
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -480,22 +480,24 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomIJbeasleyunguardedxjournalclubtree5086eac8adbb63241fe9b3050f1ccac32aa908b1targetblank5086eaca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/IJbeasley/unguarded_x_journal_club/tree/5086eac8adbb63241fe9b3050f1ccac32aa908b1" target="_blank">5086eac</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomIJbeasleyunguardedxjournalclubtree3751ab00dbb8a15d62e18dc05f1b8072b1d857c9targetblank3751ab0a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/IJbeasley/unguarded_x_journal_club/tree/3751ab00dbb8a15d62e18dc05f1b8072b1d857c9" target="_blank">3751ab0</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomIJbeasleyunguardedxjournalclubtree5086eac8adbb63241fe9b3050f1ccac32aa908b1targetblank5086eaca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomIJbeasleyunguardedxjournalclubtree3751ab00dbb8a15d62e18dc05f1b8072b1d857c9targetblank3751ab0a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/IJbeasley/unguarded_x_journal_club/tree/5086eac8adbb63241fe9b3050f1ccac32aa908b1" target="_blank">5086eac</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/IJbeasley/unguarded_x_journal_club/tree/3751ab00dbb8a15d62e18dc05f1b8072b1d857c9" target="_blank">3751ab0</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
-working directory clean
+Ignored files:
+    Ignored:    analysis/figure/
+
 </code></pre>
 <p>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
@@ -533,6 +535,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/IJbeasley/unguarded_x_journal_club/blob/3751ab00dbb8a15d62e18dc05f1b8072b1d857c9/analysis/sex_biased_mutation_rate.Rmd" target="_blank">3751ab0</a>
+</td>
+<td>
+Isobel Beasley
+</td>
+<td>
+2022-02-06
+</td>
+<td>
+Update workflowr page for sex_biased_mutation_rate
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/IJbeasley/unguarded_x_journal_club/1999cf48b11195375c7eb974f3ddd366e837a2d3/docs/sex_biased_mutation_rate.html" target="_blank">1999cf4</a>
+</td>
+<td>
+Isobel Beasley
+</td>
+<td>
+2021-12-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -693,23 +729,26 @@ Publish inital webpages project
 </div>
 </div>
 </div>
+<p><strong>Introduction</strong> This workflowr page contains investigations into Additionally - it illustrates how we produced Figure 1 for the paper.</p>
 <div id="set-up" class="section level1">
 <h1>Set up</h1>
 <pre class="r"><code>library(ggplot2)
 suppressMessages(library(dplyr))
 library(reactable)</code></pre>
 <pre><code>Warning: package &#39;reactable&#39; was built under R version 4.1.2</code></pre>
-<pre class="r"><code># only look at public sheets - so no authentication is needed
+<pre class="r"><code>library(tidyr)
+
+# only look at public sheets - so no authentication is needed
 googlesheets4::gs4_deauth()
 
 # read in sex bias mutation data.frame
-sex_bias_mut_df = googlesheets4::read_sheet(&quot;https://docs.google.com/spreadsheets/d/10ZVgeGlDpEnPG-4zLLrSBQjF7p2_9hzzIMPuIRuvogg/edit#gid=537547888&quot;, range = &quot;Alpha Estimates (each row is a single estimate)&quot;)</code></pre>
+sex_bias_mut_df = googlesheets4::read_sheet(&quot;https://docs.google.com/spreadsheets/d/10ZVgeGlDpEnPG-4zLLrSBQjF7p2_9hzzIMPuIRuvogg/edit#gid=537547888&quot;, range = &quot;Sex-bias estimates&quot;)</code></pre>
 <pre><code>v Reading from &quot;Sex_bias_mutation_rate&quot;.</code></pre>
-<pre><code>v Range &#39;&#39;Alpha Estimates (each row is a single estimate)&#39;&#39;.</code></pre>
+<pre><code>v Range &#39;&#39;Sex-bias estimates&#39;&#39;.</code></pre>
 <pre class="r"><code># what does the sex bias in mutation rate estimate look like: 
 head(sex_bias_mut_df) %&gt;% reactable()</code></pre>
 <div id="htmlwidget-0bc58612b86b389075fb" class="reactable html-widget" style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-0bc58612b86b389075fb">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"authors":["Makova and Li","Ellegren and Fridolfsson","Bartosch-Härlid et al.","Bartosch-Härlid et al.","Bartosch-Härlid et al.","Bartosch-Härlid et al."],"year":[2002,2003,2003,2003,2003,2003],"taxonomic_class":["Mammalia","Actinopterygii","Aves","Aves","Aves","Aves"],"animal_name":["Primates (Human, Gorilla, Bonobo,Siamang,Gibbon)","Salmonid Fish","Birds (Passeriformes based clade)","Birds (Passeriformes based clade)","Birds (Passeriformes based clade)","Birds (Charadriiformes and Procellariiformes based clade)"],"scientific_name":["Homo sapiens;Gorilla gorilla;Pan paniscus;Symphalangus syndactylus;Hylobates lar","Oncorhynchus kisutch;Oncorhynchus tshawytscha","Agelaius phoeniceus;Cardinalis cardinalis;Emberiza citrinella;Emberiza schoeniclus;Icteria virens;Passer domesticus;Passer montanus;Prunella collaris;Prunella modularis;Setophaga citrina","Cyanistes caeruleus;Parus major;Hirundo rustica;Phylloscopus trochilus;Tachycineta bicolor;Troglodytes aedon","Erithacus rubecula;Ficedula albicollis;Sialia mexicana;Sialia sialis","Stercorarius antarcticus;Charadrius morinellus;Haematopus ostralegus;Chroicocephalus ridibundus;Fulmarus glacialis;Hydrobates leucorhous"],"alpha_point_estimate":[2.23,5.98,3.48,2.43,1.7,4.74],"alpha_estimate_lower":[1.47,5.35,2.34,1.67,0.88,3.42],"alpha_estimate_upper":[3.84,6.6,4.62,3.19,2.52,6.06],"method_used_to_calculate_alpha":["Evolutionary method (Miyata et al. 1987; comparing Y/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing Y/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing Z/W)","Evolutionary method (Miyata et al. 1987; comparing Z/W)","Evolutionary method (Miyata et al. 1987; comparing Z/W)","Evolutionary method (Miyata et al. 1987; comparing Z/W)"],"upper_lower_meaning":["Lower and upper estimates are the 95% confidence interval for alpha","Lower and upper estimates are based on different calculations for alpha","Lower and upper estimates are 2 standard errors from the mean (rough 95% confidence interval)","Lower and upper estimates are 2 standard errors from the mean (rough 95% confidence interval)","Lower and upper estimates are 2 standard errors from the mean (rough 95% confidence interval)","Lower and upper estimates are 2 standard errors from the mean (rough 95% confidence interval)"],"other_notes":["Compared Y with Chromosome 3","95% confidence intervals for each estimate include 1. Point estimate is just the mean of the lower and upper values",null,null,null,null],"loci_for_estimate":["Noncoding sequences (three segments)",null,"Introns (gene pairs)","Introns (gene pairs)","Introns (gene pairs)","Introns (gene pairs)"]},"columns":[{"accessor":"authors","name":"authors","type":"character"},{"accessor":"year","name":"year","type":"numeric"},{"accessor":"taxonomic_class","name":"taxonomic_class","type":"character"},{"accessor":"animal_name","name":"animal_name","type":"character"},{"accessor":"scientific_name","name":"scientific_name","type":"character"},{"accessor":"alpha_point_estimate","name":"alpha_point_estimate","type":"numeric"},{"accessor":"alpha_estimate_lower","name":"alpha_estimate_lower","type":"numeric"},{"accessor":"alpha_estimate_upper","name":"alpha_estimate_upper","type":"numeric"},{"accessor":"method_used_to_calculate_alpha","name":"method_used_to_calculate_alpha","type":"character"},{"accessor":"upper_lower_meaning","name":"upper_lower_meaning","type":"character"},{"accessor":"other_notes","name":"other_notes","type":"character"},{"accessor":"loci_for_estimate","name":"loci_for_estimate","type":"character"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"5da085b4482c69a79db9b73b36090585","key":"5da085b4482c69a79db9b73b36090585"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-0bc58612b86b389075fb">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"authors":["Shimmin, Chang and Li","Chang et al.","Chang and Li","Chang, Hewett-Emmett and Li","Ellegren and Fridolfsson","Huang et al."],"year":[1993,1994,1995,1996,1997,1997],"taxonomic_class":["Mammalia","Mammalia","Mammalia","Mammalia","Aves","Mammalia"],"animal_name":["Primates (Human, Orangutan, Baboons, Squirrel Monkey)","Rodents (Mouse;Rat)","Rodents (Mouse;Rat)","Primates (Human, Orangutan, Baboons, Squirrel Monkey)","Birds (Collared flycatcher;Yellowhammer)","Primates (Human, Orangutan, Squirrel Monkey)"],"scientific_name":["Homo sapiens;Pongo pygmaeus;Papio\ncynocephalus;Saimiri boliviensis","Mus musculus;Rattus norvegicus","Mus musculus;Rattus norvegicus","Homo sapiens;Pongo pygmaeus;Papio\ncynocephalus;Saimiri boliviensis","Ficedula albicollis;Emberiza citrinella","Homo sapiens;Pongo pygmaeus;Saimiri boliviensis"],"alpha_point_estimate":[6.26,1,2,4.2,3.9,5.14],"alpha_estimate_lower":[2.63,1.8,1,2.2,1.12,2.42],"alpha_estimate_upper":[32.4,3.2,3.9,10,6.68,16.6],"method_used_to_calculate_alpha":["Evolutionary method (Miyata et al. 1987, comparing X/Y)","Evolutionary method (Miyata et al. 1987, comparing X/Y)","Evolutionary method (Miyata et al. 1987, comparing X/Y)","Evolutionary method (Miyata et al. 1987, comparing X/Y)","Evolutionary method (Miyata et al. 1987; comparing Z/W)","Evolutionary method (Miyata et al. 1987, comparing X/Y)"],"upper_lower_meaning":["Lower and upper estimates are the 95% confidence interval for alpha","Lower and upper estimates are the 95% confidence interval for alpha","Lower and upper estimates are the 95% confidence interval for alpha","Lower and upper estimates are the 95% confidence interval for alpha","Lower and upper estimates are the 95% confidence interval for alpha","Lower and upper estimates are the 95% confidence interval for alpha"],"loci_type_for_estimate":["Intron","Intron","Intron","Intron","Exon","Intron"],"number_of_loci_for_estimate":["Single gene pair","Single gene pair","Single gene pair","Single gene pair","Single gene pair","Single gene pair"],"mutation_type":[null,null,null,null,null,null],"other_notes":["Gene pair: ZFY/ZFX","Gene pair: ZFY/ZFX","Gene pair: Ube 1X/Ube 1Y","Gene pair: SMCY/SMCX","Gene pair: CHDZ / CHDW","Gene pair: AMGX/AMGY"]},"columns":[{"accessor":"authors","name":"authors","type":"character"},{"accessor":"year","name":"year","type":"numeric"},{"accessor":"taxonomic_class","name":"taxonomic_class","type":"character"},{"accessor":"animal_name","name":"animal_name","type":"character"},{"accessor":"scientific_name","name":"scientific_name","type":"character"},{"accessor":"alpha_point_estimate","name":"alpha_point_estimate","type":"numeric"},{"accessor":"alpha_estimate_lower","name":"alpha_estimate_lower","type":"numeric"},{"accessor":"alpha_estimate_upper","name":"alpha_estimate_upper","type":"numeric"},{"accessor":"method_used_to_calculate_alpha","name":"method_used_to_calculate_alpha","type":"character"},{"accessor":"upper_lower_meaning","name":"upper_lower_meaning","type":"character"},{"accessor":"loci_type_for_estimate","name":"loci_type_for_estimate","type":"character"},{"accessor":"number_of_loci_for_estimate","name":"number_of_loci_for_estimate","type":"character"},{"accessor":"mutation_type","name":"mutation_type","type":"character"},{"accessor":"other_notes","name":"other_notes","type":"character"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"c7a55accab30ba4d2a8968dccbe0b3cd","key":"c7a55accab30ba4d2a8968dccbe0b3cd"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 <pre class="r"><code># Set up custom theme for ggplots
 custom_theme &lt;-
   list(
@@ -717,7 +756,7 @@ custom_theme &lt;-
       theme(
         panel.border = element_blank(),
         axis.line = element_line(),
-        text = element_text(size = 25),
+        text = element_text(size = 16),
         legend.position = &quot;bottom&quot;,
         strip.background = element_blank(),
         axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)
@@ -732,7 +771,7 @@ custom_theme &lt;-
   select(authors,year) %&gt;% 
   distinct() %&gt;% 
   nrow()</code></pre>
-<pre><code>[1] 34</code></pre>
+<pre><code>[1] 46</code></pre>
 </div>
 <div id="when-where-these-studies-published" class="section level2">
 <h2>When where these studies published?</h2>
@@ -775,7 +814,7 @@ custom_theme &lt;-
   summarise(n = n()) %&gt;% 
   reactable()</code></pre>
 <div id="htmlwidget-a71b15f820af623e53da" class="reactable html-widget" style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-a71b15f820af623e53da">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"taxonomic_class":["Actinopterygii","Amphibia","Arachnida","Aves","Mammalia","Reptilia"],"n":[1,2,2,74,60,5]},"columns":[{"accessor":"taxonomic_class","name":"taxonomic_class","type":"character"},{"accessor":"n","name":"n","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"5b79cc8d4bc72bf37748001eb95d6ac0","key":"5b79cc8d4bc72bf37748001eb95d6ac0"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-a71b15f820af623e53da">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"taxonomic_class":["Actinopterygii","Amphibia","Arachnida","Aves","Insecta","Mammalia","Reptilia"],"n":[1,2,2,74,3,71,5]},"columns":[{"accessor":"taxonomic_class","name":"taxonomic_class","type":"character"},{"accessor":"n","name":"n","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"b37d009d332399f309daa81edb54b66f","key":"b37d009d332399f309daa81edb54b66f"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="number-of-estimates-per-method-used-to-calculate-the-sex-biased-ratio-in-mutation-rate" class="section level2">
 <h2>Number of estimates per method used to calculate the sex-biased ratio in mutation rate</h2>
@@ -784,28 +823,28 @@ custom_theme &lt;-
   summarise(n = n()) %&gt;% 
   reactable(defaultPageSize = 50)</code></pre>
 <div id="htmlwidget-953d50596abf826ad1b4" class="reactable html-widget" style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-953d50596abf826ad1b4">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"method_used_to_calculate_alpha":["Direct estimate (trios)","Evolutionary method (Miyata et al. 1987; comparing W/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing X/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing X/Y)","Evolutionary method (Miyata et al. 1987; comparing Y/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing Z/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing Z/W)"],"n":[12,1,42,9,6,58,16]},"columns":[{"accessor":"method_used_to_calculate_alpha","name":"method_used_to_calculate_alpha","type":"character"},{"accessor":"n","name":"n","type":"numeric"}],"defaultPageSize":50,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"eb2fb95cccac3bab9e23f79d862516e6","key":"eb2fb95cccac3bab9e23f79d862516e6"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-953d50596abf826ad1b4">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"method_used_to_calculate_alpha":["Direct estimate (trios)","Evolutionary method (Miyata et al. 1987, comparing X/Y)","Evolutionary method (Miyata et al. 1987; comparing W/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing X/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing X/Y)","Evolutionary method (Miyata et al. 1987; comparing Y/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing Z/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing Z/W)"],"n":[14,5,1,49,9,6,58,16]},"columns":[{"accessor":"method_used_to_calculate_alpha","name":"method_used_to_calculate_alpha","type":"character"},{"accessor":"n","name":"n","type":"numeric"}],"defaultPageSize":50,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"6d4b1574f21840c6957f26e7bd331f36","key":"6d4b1574f21840c6957f26e7bd331f36"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="number-of-estimates-per-loci-type-used-to-calculate-the-sex-biased-ratio-in-mutation-rate" class="section level2">
 <h2>Number of estimates per loci type used to calculate the sex-biased ratio in mutation rate</h2>
 <pre class="r"><code>sex_bias_mut_df %&gt;% 
-  group_by(loci_for_estimate) %&gt;% 
+  group_by(loci_type_for_estimate) %&gt;% 
   summarise(n = n()) %&gt;% 
   reactable(defaultPageSize = 50)</code></pre>
 <div id="htmlwidget-dfb6bc2cdefdbd9c15ee" class="reactable html-widget" style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-dfb6bc2cdefdbd9c15ee">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"loci_for_estimate":["Exon sequence (gene pair)","Exons and introns (five sequences)","Intron (gene pair)","Intron sequence (single)","Introns (gene pairs)","Microsattelites (three)","Neutral ancestoral repeat regions","Noncoding sequences (three segments)","Orthologous introns","Orthologues (intronic sequences)","Synonymous sites","Whole-genome (introns)","Whole-genome (non-coding)","Whole-genome (synonymous sites)","Whole-genome sequence","Whole genome sequences",null],"n":[1,2,6,1,7,1,1,1,3,9,2,44,32,10,1,1,22]},"columns":[{"accessor":"loci_for_estimate","name":"loci_for_estimate","type":"character"},{"accessor":"n","name":"n","type":"numeric"}],"defaultPageSize":50,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"f2a342f028699509a5abed754da63d5c","key":"f2a342f028699509a5abed754da63d5c"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-dfb6bc2cdefdbd9c15ee">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"loci_type_for_estimate":["Ancestral repeat","Ancestral repeats","Exon","Intron","Microsattelite","Non-coding","Noncoding sequence","Short tandem repeat (STR)","Synomous site","Synonymous site","Whole genome",null],"n":[1,2,1,76,2,32,1,1,1,12,1,28]},"columns":[{"accessor":"loci_type_for_estimate","name":"loci_type_for_estimate","type":"character"},{"accessor":"n","name":"n","type":"numeric"}],"defaultPageSize":50,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"ebdd64bdf67086753b764a970f5264da","key":"ebdd64bdf67086753b764a970f5264da"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 <pre class="r"><code># Number of unique studies
 
 sex_bias_mut_df %&gt;% 
   group_by(authors,year) %&gt;% 
   sample_n(1) %&gt;% 
   ungroup() %&gt;% 
-  group_by(taxonomic_class,loci_for_estimate) %&gt;% 
+  group_by(taxonomic_class,loci_type_for_estimate) %&gt;% 
   summarise(n = n()) %&gt;% 
   reactable(defaultPageSize = 50)</code></pre>
 <pre><code>`summarise()` has grouped output by &#39;taxonomic_class&#39;. You can override using the `.groups` argument.</code></pre>
 <div id="htmlwidget-780cb9f563e2acfaa2c2" class="reactable html-widget" style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-780cb9f563e2acfaa2c2">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"taxonomic_class":["Actinopterygii","Amphibia","Arachnida","Aves","Aves","Aves","Aves","Aves","Aves","Aves","Aves","Aves","Mammalia","Mammalia","Mammalia","Mammalia","Mammalia","Mammalia","Reptilia","Reptilia"],"loci_for_estimate":[null,"Exons and introns (five sequences)","Synonymous sites","Intron (gene pair)","Intron sequence (single)","Introns (gene pairs)","Microsattelites (three)","Neutral ancestoral repeat regions","Orthologous introns","Whole-genome (introns)","Whole-genome (synonymous sites)",null,"Intron (gene pair)","Noncoding sequences (three segments)","Orthologues (intronic sequences)","Whole-genome (non-coding)","Whole-genome sequence",null,"Whole genome sequences",null],"n":[1,1,1,2,1,1,1,1,1,1,1,2,2,1,1,1,1,11,1,2]},"columns":[{"accessor":"taxonomic_class","name":"taxonomic_class","type":"character"},{"accessor":"loci_for_estimate","name":"loci_for_estimate","type":"character"},{"accessor":"n","name":"n","type":"numeric"}],"defaultPageSize":50,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"ce6d3bcfe44b6ea439f65e01a03c5a65","key":"ce6d3bcfe44b6ea439f65e01a03c5a65"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-780cb9f563e2acfaa2c2">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"taxonomic_class":["Actinopterygii","Amphibia","Arachnida","Aves","Aves","Aves","Aves","Aves","Aves","Insecta","Insecta","Mammalia","Mammalia","Mammalia","Mammalia","Mammalia","Mammalia","Mammalia","Mammalia","Reptilia"],"loci_type_for_estimate":["Intron",null,"Synonymous site","Ancestral repeat","Exon","Intron","Microsattelite","Synonymous site",null,"Synomous site",null,"Ancestral repeats","Intron","Microsattelite","Non-coding","Noncoding sequence","Short tandem repeat (STR)","Whole genome",null,null],"n":[1,1,1,1,1,5,1,1,2,1,1,1,8,1,1,1,1,1,13,3]},"columns":[{"accessor":"taxonomic_class","name":"taxonomic_class","type":"character"},{"accessor":"loci_type_for_estimate","name":"loci_type_for_estimate","type":"character"},{"accessor":"n","name":"n","type":"numeric"}],"defaultPageSize":50,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"2ff56732c8183689d422bde3864f32a8","key":"2ff56732c8183689d422bde3864f32a8"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="number-of-estimates-by-both-taxonomic-class-and-method-used-to-calculate" class="section level2">
 <h2>Number of estimates by both taxonomic class and method used to calculate</h2>
@@ -815,7 +854,7 @@ sex_bias_mut_df %&gt;%
   reactable(defaultPageSize = 50)</code></pre>
 <pre><code>`summarise()` has grouped output by &#39;taxonomic_class&#39;. You can override using the `.groups` argument.</code></pre>
 <div id="htmlwidget-de5fccbccc4019eddf97" class="reactable html-widget" style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-de5fccbccc4019eddf97">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"taxonomic_class":["Actinopterygii","Amphibia","Amphibia","Arachnida","Aves","Aves","Aves","Aves","Mammalia","Mammalia","Mammalia","Mammalia","Reptilia","Reptilia","Reptilia","Reptilia"],"method_used_to_calculate_alpha":["Evolutionary method (Miyata et al. 1987; comparing Y/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing X/Y)","Evolutionary method (Miyata et al. 1987; comparing Z/W)","Evolutionary method (Miyata et al. 1987; comparing X/Autosomes)","Direct estimate (trios)","Evolutionary method (Miyata et al. 1987; comparing W/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing Z/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing Z/W)","Direct estimate (trios)","Evolutionary method (Miyata et al. 1987; comparing X/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing X/Y)","Evolutionary method (Miyata et al. 1987; comparing Y/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing X/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing X/Y)","Evolutionary method (Miyata et al. 1987; comparing Y/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing Z/Autosomes)"],"n":[1,1,1,2,2,1,56,15,10,39,7,4,1,1,1,2]},"columns":[{"accessor":"taxonomic_class","name":"taxonomic_class","type":"character"},{"accessor":"method_used_to_calculate_alpha","name":"method_used_to_calculate_alpha","type":"character"},{"accessor":"n","name":"n","type":"numeric"}],"defaultPageSize":50,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"c74c337458f9fec8589a8900afab966f","key":"c74c337458f9fec8589a8900afab966f"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-de5fccbccc4019eddf97">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"taxonomic_class":["Actinopterygii","Amphibia","Amphibia","Arachnida","Aves","Aves","Aves","Aves","Insecta","Mammalia","Mammalia","Mammalia","Mammalia","Mammalia","Reptilia","Reptilia","Reptilia","Reptilia"],"method_used_to_calculate_alpha":["Evolutionary method (Miyata et al. 1987; comparing Y/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing X/Y)","Evolutionary method (Miyata et al. 1987; comparing Z/W)","Evolutionary method (Miyata et al. 1987; comparing X/Autosomes)","Direct estimate (trios)","Evolutionary method (Miyata et al. 1987; comparing W/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing Z/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing Z/W)","Evolutionary method (Miyata et al. 1987; comparing X/Autosomes)","Direct estimate (trios)","Evolutionary method (Miyata et al. 1987, comparing X/Y)","Evolutionary method (Miyata et al. 1987; comparing X/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing X/Y)","Evolutionary method (Miyata et al. 1987; comparing Y/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing X/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing X/Y)","Evolutionary method (Miyata et al. 1987; comparing Y/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing Z/Autosomes)"],"n":[1,1,1,2,2,1,56,15,3,12,5,43,7,4,1,1,1,2]},"columns":[{"accessor":"taxonomic_class","name":"taxonomic_class","type":"character"},{"accessor":"method_used_to_calculate_alpha","name":"method_used_to_calculate_alpha","type":"character"},{"accessor":"n","name":"n","type":"numeric"}],"defaultPageSize":50,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"9b9e048f560c62e14a5531764c08fd8d","key":"9b9e048f560c62e14a5531764c08fd8d"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <div id="distribution-of-sex-biased-mutation-estimates" class="section level1">
@@ -842,7 +881,7 @@ sex_bias_mut_df %&gt;%
 <p><img src="figure/sex_biased_mutation_rate.Rmd/dist_sex_est-1.png" width="1152" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>summary(sex_bias_mut_df$alpha_point_estimate)</code></pre>
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
- 0.0283  2.0000  2.3750  2.8803  3.2700 20.0900 </code></pre>
+ -0.480   1.992   2.365   2.873   3.337  20.090 </code></pre>
 <pre class="r"><code>sex_bias_mut_df %&gt;% 
   ggplot(aes(x=alpha_point_estimate)) +
   geom_boxplot() + 
@@ -859,7 +898,7 @@ sex_bias_mut_df %&gt;%
   geom_histogram(bins = 50) + 
   labs(title = &quot;Distribution of estimated sex-biased mutation rate&quot;,
         x = &quot;Point estimate of the male-biased mutation rate (alpha)&quot;,
-       y= &quot;Count&quot;) + 
+       y= &quot;Number of estimates&quot;) + 
   custom_theme + 
   geom_vline(xintercept = 1, col = &quot;red&quot;, linetype = 2, size = 2) + 
   annotate(
@@ -876,15 +915,54 @@ sex_bias_mut_df %&gt;%
 </div>
 <div id="by-taxonomic-class" class="section level2">
 <h2>By Taxonomic Class</h2>
-<pre class="r"><code>sex_bias_mut_df %&gt;% 
+<pre class="r"><code>df= sex_bias_mut_df %&gt;% 
+  filter(alpha_point_estimate&lt;20) %&gt;% 
   ggplot(aes(x=alpha_point_estimate)) + 
   geom_histogram(bins = 25) + 
-  labs(title = &quot;Distribution of estimated sex-biased mutation rate&quot;,
+  labs(title = &quot;Distribution of sex-biased mutation rate estimtates&quot;,
         x = &quot;Point estimate of the male-biased mutation rate (alpha)&quot;,
-       y= &quot;Count&quot;) + 
+       y= &quot;Number of estimates&quot;) + 
   custom_theme + 
   geom_vline(xintercept = 1, col = &quot;red&quot;, linetype = 2, size = 2) + 
-  facet_wrap(~taxonomic_class)</code></pre>
+  facet_wrap(~taxonomic_class)
+
+n_by_taxa = sex_bias_mut_df %&gt;% 
+            group_by(taxonomic_class) %&gt;% 
+            summarise(n = n()) 
+
+library(gridExtra)</code></pre>
+<pre><code>
+Attaching package: &#39;gridExtra&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:dplyr&#39;:
+
+    combine</code></pre>
+<pre class="r"><code>df_2 = sex_bias_mut_df %&gt;%   
+  select(authors,year,scientific_name) %&gt;% 
+  distinct() %&gt;% 
+  ggplot(aes(x=year)) + 
+  geom_histogram() + 
+  custom_theme  + 
+  labs(x = &quot;Year published*&quot;,
+       y = &quot;Number of estimates&quot;,
+       title = &quot;How many unique estimates per year?&quot;)
+
+
+df_3 = sex_bias_mut_df %&gt;%   
+  select(authors,year) %&gt;% 
+  distinct() %&gt;% 
+  ggplot(aes(x=year)) + 
+  geom_histogram() + 
+  custom_theme  + 
+  labs(x = &quot;Year published*&quot;,
+       y = &quot;Number of studies&quot;,
+       title = &quot;What year were our collated studies published?&quot;)
+
+
+library(patchwork)
+
+(df) / (df_2 + df_3)</code></pre>
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="figure/sex_biased_mutation_rate.Rmd/sex_bias_by_taxo_class-1.png" width="1152" style="display: block; margin: auto;" /></p>
 </div>
 <div id="by-method-used-to-calculate-estimate-of-male-biased-mutation-rate" class="section level2">
@@ -900,6 +978,35 @@ sex_bias_mut_df %&gt;%
        y= &quot;Count&quot;)</code></pre>
 <pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="figure/sex_biased_mutation_rate.Rmd/sex_bias_by_method-1.png" width="2880" style="display: block; margin: auto;" /></p>
+</div>
+<div id="confidence-intervals--" class="section level2">
+<h2>Confidence intervals -</h2>
+<pre class="r"><code>df= sex_bias_mut_df %&gt;% 
+  filter(upper_lower_meaning == &quot;Lower and upper estimates are the 95% confidence interval for alpha&quot;|
+         upper_lower_meaning == &quot;Lower and upper estimates are 2 standard errors from the mean (rough 95% confidence interval)&quot;) %&gt;% 
+  mutate(se = (alpha_estimate_upper - alpha_point_estimate)/2) 
+
+
+df %&gt;% 
+  select(taxonomic_class,se) %&gt;% 
+  mutate(row = row_number()) %&gt;% 
+  pivot_wider(names_from = taxonomic_class,
+              values_from = se,
+              values_fn = list)</code></pre>
+<pre><code># A tibble: 118 x 6
+     row Mammalia  Aves      Amphibia Reptilia Insecta
+   &lt;int&gt; &lt;list&gt;    &lt;list&gt;    &lt;list&gt;   &lt;list&gt;   &lt;list&gt; 
+ 1     1 &lt;dbl [1]&gt; &lt;NULL&gt;    &lt;NULL&gt;   &lt;NULL&gt;   &lt;NULL&gt; 
+ 2     2 &lt;dbl [1]&gt; &lt;NULL&gt;    &lt;NULL&gt;   &lt;NULL&gt;   &lt;NULL&gt; 
+ 3     3 &lt;dbl [1]&gt; &lt;NULL&gt;    &lt;NULL&gt;   &lt;NULL&gt;   &lt;NULL&gt; 
+ 4     4 &lt;dbl [1]&gt; &lt;NULL&gt;    &lt;NULL&gt;   &lt;NULL&gt;   &lt;NULL&gt; 
+ 5     5 &lt;NULL&gt;    &lt;dbl [1]&gt; &lt;NULL&gt;   &lt;NULL&gt;   &lt;NULL&gt; 
+ 6     6 &lt;dbl [1]&gt; &lt;NULL&gt;    &lt;NULL&gt;   &lt;NULL&gt;   &lt;NULL&gt; 
+ 7     7 &lt;NULL&gt;    &lt;dbl [1]&gt; &lt;NULL&gt;   &lt;NULL&gt;   &lt;NULL&gt; 
+ 8     8 &lt;NULL&gt;    &lt;dbl [1]&gt; &lt;NULL&gt;   &lt;NULL&gt;   &lt;NULL&gt; 
+ 9     9 &lt;dbl [1]&gt; &lt;NULL&gt;    &lt;NULL&gt;   &lt;NULL&gt;   &lt;NULL&gt; 
+10    10 &lt;NULL&gt;    &lt;dbl [1]&gt; &lt;NULL&gt;   &lt;NULL&gt;   &lt;NULL&gt; 
+# ... with 108 more rows</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -923,7 +1030,8 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] reactable_0.2.3 dplyr_1.0.6     ggplot2_3.3.5   workflowr_1.6.2
+[1] patchwork_1.1.1 gridExtra_2.3   tidyr_1.1.3     reactable_0.2.3
+[5] dplyr_1.0.6     ggplot2_3.3.5   workflowr_1.6.2
 
 loaded via a namespace (and not attached):
  [1] tidyselect_1.1.1    xfun_0.24           bslib_0.2.5.1      
@@ -944,8 +1052,8 @@ loaded via a namespace (and not attached):
 [46] cli_3.1.0           tools_4.1.0         magrittr_2.0.1     
 [49] sass_0.4.0          tibble_3.1.2        crayon_1.4.1       
 [52] whisker_0.4         pkgconfig_2.0.3     ellipsis_0.3.2     
-[55] googledrive_2.0.0   assertthat_0.2.1    rmarkdown_2.9      
-[58] httr_1.4.2          rstudioapi_0.13     R6_2.5.0           
+[55] googledrive_2.0.0   rstudioapi_0.13     assertthat_0.2.1   
+[58] rmarkdown_2.9       httr_1.4.2          R6_2.5.0           
 [61] git2r_0.29.0        compiler_4.1.0     </code></pre>
 </div>
 </div>
