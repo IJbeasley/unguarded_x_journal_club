@@ -1,17 +1,23 @@
 ---
-title: "Sex biased mutation rate"
+title: "Figure 1 - Sex biased mutation rate"
 output: workflowr::wflow_html
 editor_options:
   chunk_output_type: console
 ---
 
-# Set up
+### Set up
 
-```{r setup}
+```{r setup, message=FALSE,warning=FALSE}
 
 library(ggplot2)
 suppressMessages(library(dplyr))
 library(reactable)
+library(RColorBrewer)
+library(latex2exp)
+library(patchwork)
+library(extrafont)
+font_import()
+loadfonts(device="win")  
 
 # only look at public sheets - so no authentication is needed
 googlesheets4::gs4_deauth()
@@ -29,7 +35,7 @@ custom_theme <-
       theme(
         panel.border = element_blank(),
         axis.line = element_line(),
-        text = element_text(size = 16),
+        text = element_text(family="serif", size=20),
         legend.position = "bottom",
         strip.background = element_blank(),
         axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)
@@ -38,18 +44,78 @@ custom_theme <-
 
 ```
 
-# Final figure for the unguarded X paper
+# Figure 1 for the unguarded X paper
 
-## First we 
+## Suggested steps (11/2/2022)
 
-```{r figure_for_the_paer}
+### Data preparation 
+
+```{r data_prep}
+
+# Filter out that wildly high / unrealistic estimate for human male-bias from Wilson Sayres et al. 2011
+
+filtered_sex_bias_mut_df = sex_bias_mut_df %>% 
+                           filter(alpha_point_estimate<20)
+
+
+# For the purposes of the figure - only include estimates for a single species at a time: 
+
+filtered_sex_bias_mut_df = filtered_sex_bias_mut_df %>% 
+                           filter(!grepl(";",scientific_name)) 
+
+# where there is multiple point estimates on the same species by the same study,
+#average them into a single point estimate of alpha (the male-sex bias)
+
+filtered_sex_bias_mut_df = filtered_sex_bias_mut_df  %>% 
+                           group_by(authors,year,taxonomic_class,scientific_name) %>% 
+                           summarise(mean_alpha_estimate = mean(alpha_point_estimate)) %>% 
+                           ungroup()
+
+# where there is multiple alpha point estimates on the same species - but different studies
+# average these estimates 
+
+filtered_sex_bias_mut_df = filtered_sex_bias_mut_df  %>% 
+                           group_by(taxonomic_class,scientific_name) %>% 
+                           summarise(mean_alpha_estimate = mean(mean_alpha_estimate)) 
+  
+
+
+```
+
+## Plot figure
+
+```{r  plot_figure_1}
+
+filtered_sex_bias_mut_df  %>% 
+  mutate(taxa_group = ifelse(taxonomic_class == "Aves" | taxonomic_class == "Mammalia",
+                            taxonomic_class, "Other")) %>% 
+  ggplot(aes(x=mean_alpha_estimate)) + 
+  geom_histogram(bins = 25, aes(fill = taxonomic_class)) + 
+  labs(x = TeX("Estimate of the male-biased mutation rate ($ R_\\mu $ )"),
+       y= "Number of estimates") + 
+  custom_theme + 
+  geom_vline(xintercept = 1, col = "black", linetype = 2, size = 2) + 
+  facet_wrap(~taxa_group) + 
+  scale_fill_brewer(palette = "Dark2") + 
+  plot_annotation(
+  title = 'Distribution of sex-biased mutation rate estimates',
+  theme = theme(text = element_text(family="serif", size=20))
+)
+
+ggsave("figures/figure_1.png", width = 180, height = 120, units = "mm")
+
+```
+
+## Old version of the figure for the paper (4/02/2022)
+
+```{r old_version_of_figure_for_the_paper, fig.height=15, fig.width=20}
 ## By Taxonomic Class
 
 df= sex_bias_mut_df %>% 
-  filter(alpha_point_estimate<20) %>% 
+  #filter(alpha_point_estimate<20) %>% 
   ggplot(aes(x=alpha_point_estimate)) + 
   geom_histogram(bins = 25) + 
-  labs(title = "Distribution of sex-biased mutation rate estimtates",
+  labs(title = "Distribution of sex-biased mutation rate estimates",
         x = "Point estimate of the male-biased mutation rate (alpha)",
        y= "Number of estimates") + 
   custom_theme + 
