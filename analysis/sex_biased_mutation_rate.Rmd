@@ -10,7 +10,7 @@ editor_options:
 
 # Set up
 
-```{r setup}
+```{r setup, message = FALSE, warning=FALSE}
 
 library(ggplot2)
 suppressMessages(library(dplyr))
