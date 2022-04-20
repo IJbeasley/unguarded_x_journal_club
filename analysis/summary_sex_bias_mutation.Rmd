@@ -1,0 +1,299 @@
+---
+title: "Summary information on the male-biased mutation rate estimate dataset"
+author: "Isobel Beasley & Yasmine McDonough"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+**Introduction** This workflowr page contains summary information / investigations on the dataset of male-biased estimates we compiled from published works. 
+
+### Set up
+
+```{r setup, message = FALSE, warning=FALSE}
+
+library(ggplot2)
+suppressMessages(library(dplyr))
+library(reactable)
+library(tidyr)
+
+# only look at public sheets - so no authentication is needed
+googlesheets4::gs4_deauth()
+
+# read in sex bias mutation data.frame
+sex_bias_mut_df = googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/10ZVgeGlDpEnPG-4zLLrSBQjF7p2_9hzzIMPuIRuvogg/edit#gid=537547888", range = "Sex-bias estimates")
+
+# what does the sex bias in mutation rate estimate look like: 
+head(sex_bias_mut_df) %>% reactable()
+
+# Set up custom theme for ggplots
+custom_theme <-
+  list(
+    theme_bw() +
+      theme(
+        panel.border = element_blank(),
+        axis.line = element_line(),
+        text = element_text(size = 16),
+        legend.position = "bottom",
+        strip.background = element_blank(),
+        axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)
+      )
+  )
+
+```
+
+# What data have we collected / collated?
+
+## Number of unique studies included
+
+```{r n_unique_studies}
+
+sex_bias_mut_df %>% 
+  select(authors,year) %>% 
+  distinct() %>% 
+  nrow()
+
+```
+
+## When where these studies published?
+
+```{r when_studies_published, fig.height = 8, fig.width = 12}
+
+sex_bias_mut_df %>%   
+  select(authors,year) %>% 
+  distinct() %>% 
+  ggplot(aes(x=year)) + 
+  geom_histogram() + 
+  custom_theme  + 
+  labs(x = "Year published*",
+       y = "Number",
+       title = "What year were our collated studies published?")
+
+
+```
+
+* Or preprinted, in the case of included preprints
+
+## How many distinct estimates per year?
+
+```{r n_samples_per_year, fig.height = 8, fig.width = 12}
+
+sex_bias_mut_df %>%   
+  select(authors,year,scientific_name) %>% 
+  distinct() %>% 
+  ggplot(aes(x=year)) + 
+  geom_histogram() + 
+  custom_theme  + 
+  labs(x = "Year published*",
+       y = "Number",
+       title = "How many unique estimtates (study, and organism specific) per year?")
+
+
+```
+
+* Or preprinted, in the case of included preprints
+
+## Number of estimates of sex-biased mutation rate per taxonomic class
+
+```{r n_by_taxo_class}
+
+sex_bias_mut_df %>% 
+  group_by(taxonomic_class) %>% 
+  summarise(n = n()) %>% 
+  reactable()
+
+```
+
+## Number of estimates per method used to calculate the sex-biased ratio in mutation rate
+
+```{r n_by_method}
+
+sex_bias_mut_df %>% 
+  group_by(method_used_to_calculate_alpha) %>% 
+  summarise(n = n()) %>% 
+  reactable(defaultPageSize = 50)
+
+```
+
+## Number of estimates per loci type used to calculate the sex-biased ratio in mutation rate
+
+```{r n_by_loci_type}
+
+sex_bias_mut_df %>% 
+  group_by(loci_type_for_estimate) %>% 
+  summarise(n = n()) %>% 
+  reactable(defaultPageSize = 50)
+
+# Number of unique studies
+
+sex_bias_mut_df %>% 
+  group_by(authors,year) %>% 
+  sample_n(1) %>% 
+  ungroup() %>% 
+  group_by(taxonomic_class,loci_type_for_estimate) %>% 
+  summarise(n = n()) %>% 
+  reactable(defaultPageSize = 50)
+
+```
+
+## Number of estimates by both taxonomic class and method used to calculate
+
+```{r n_by_method_and_taxo_class}
+
+sex_bias_mut_df %>% 
+  group_by(taxonomic_class,method_used_to_calculate_alpha) %>% 
+  summarise(n = n()) %>% 
+  reactable(defaultPageSize = 50)
+
+```
+
+# Distribution of sex-biased mutation estimates
+
+For the final figure 1 (and the code used to produce this figure) - see this [workflowr page](https://ijbeasley.github.io/unguarded_x_journal_club/figure_1.html).
+
+## Across all taxonomic classes
+
+```{r dist_sex_est, fig.height = 8, fig.width = 12}
+
+sex_bias_mut_df %>% 
+  ggplot(aes(x=alpha_point_estimate)) + 
+  geom_histogram(bins = 50) + 
+  labs(title = "Distribution of estimated sex-biased mutation rate",
+        x = "Point estimate of the male-biased mutation rate (alpha)",
+       y= "Count") + 
+  custom_theme + 
+  geom_vline(xintercept = 1, col = "red", linetype = 2, size = 2) + 
+  annotate(
+  "text",
+  x = 3,
+  y = 35,
+  size = 9,
+  hjust = 0,
+  col = "red", 
+  label = "Line of equal mutation rate across the sexes"
+)
+
+summary(sex_bias_mut_df$alpha_point_estimate)
+
+sex_bias_mut_df %>% 
+  ggplot(aes(x=alpha_point_estimate)) +
+  geom_boxplot() + 
+  custom_theme+ 
+   labs(title = "Distribution of estimated sex-biased mutation rate",
+        x = "Point estimate of the male-biased mutation rate (alpha)") 
+
+```
+
+### After sampling down multiple estimates on the same sample (i.e. same study, and organism)
+
+```{r sampling_down_est_dist_est_in_mut_bias, fig.height = 8, fig.width = 12}
+
+sex_bias_mut_df %>% 
+  group_by(authors,year,scientific_name) %>% 
+  sample_n(1) %>% 
+  ggplot(aes(x=alpha_point_estimate)) + 
+  geom_histogram(bins = 50) + 
+  labs(title = "Distribution of estimated sex-biased mutation rate",
+        x = "Point estimate of the male-biased mutation rate (alpha)",
+       y= "Number of estimates") + 
+  custom_theme + 
+  geom_vline(xintercept = 1, col = "red", linetype = 2, size = 2) + 
+  annotate(
+  "text",
+  x = 3,
+  y = 35,
+  size = 9,
+  hjust = 0,
+  col = "red", 
+  label = "Line of equal mutation rate across the sexes"
+)
+
+
+```
+
+## By Taxonomic Class
+
+```{r sex_bias_by_taxo_class, fig.height = 8, fig.width = 12}
+
+df= sex_bias_mut_df %>% 
+  filter(alpha_point_estimate<20) %>% 
+  ggplot(aes(x=alpha_point_estimate)) + 
+  geom_histogram(bins = 25) + 
+  labs(title = "Distribution of sex-biased mutation rate estimtates",
+        x = "Point estimate of the male-biased mutation rate (alpha)",
+       y= "Number of estimates") + 
+  custom_theme + 
+  geom_vline(xintercept = 1, col = "red", linetype = 2, size = 2) + 
+  facet_wrap(~taxonomic_class)
+
+n_by_taxa = sex_bias_mut_df %>% 
+            group_by(taxonomic_class) %>% 
+            summarise(n = n()) 
+
+library(gridExtra)
+
+df_2 = sex_bias_mut_df %>%   
+  select(authors,year,scientific_name) %>% 
+  distinct() %>% 
+  ggplot(aes(x=year)) + 
+  geom_histogram() + 
+  custom_theme  + 
+  labs(x = "Year published*",
+       y = "Number of estimates",
+       title = "How many unique estimates per year?")
+
+
+df_3 = sex_bias_mut_df %>%   
+  select(authors,year) %>% 
+  distinct() %>% 
+  ggplot(aes(x=year)) + 
+  geom_histogram() + 
+  custom_theme  + 
+  labs(x = "Year published*",
+       y = "Number of studies",
+       title = "What year were our collated studies published?")
+
+
+library(patchwork)
+
+(df) / (df_2 + df_3)
+
+```
+
+## By method used to calculate estimate of male-biased mutation rate
+
+```{r sex_bias_by_method, fig.height=20, fig.width = 30}
+
+sex_bias_mut_df %>% 
+  ggplot(aes(x=alpha_point_estimate)) + 
+  geom_histogram() + 
+  custom_theme + 
+  facet_wrap(~method_used_to_calculate_alpha) + 
+  theme(text = element_text(size = 25)) +   
+  labs(title = "Distribution of estimated sex-biased mutation rate",
+        x = "Point estimate of the male-biased mutation rate (alpha)",
+       y= "Count")
+
+```
+
+## Confidence intervals - 
+
+```{r}
+
+df= sex_bias_mut_df %>% 
+  filter(upper_lower_meaning == "Lower and upper estimates are the 95% confidence interval for alpha"|
+         upper_lower_meaning == "Lower and upper estimates are 2 standard errors from the mean (rough 95% confidence interval)") %>% 
+  mutate(se = (alpha_estimate_upper - alpha_point_estimate)/2) 
+
+
+df %>% 
+  select(taxonomic_class,se) %>% 
+  mutate(row = row_number()) %>% 
+  pivot_wider(names_from = taxonomic_class,
+              values_from = se,
+              values_fn = list)
+
+```
+
+
+
