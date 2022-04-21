@@ -17,11 +17,8 @@ suppressMessages(library(dplyr))
 library(reactable)
 library(tidyr)
 
-# only look at public sheets - so no authentication is needed
-googlesheets4::gs4_deauth()
-
 # read in sex bias mutation data.frame
-sex_bias_mut_df = googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/10ZVgeGlDpEnPG-4zLLrSBQjF7p2_9hzzIMPuIRuvogg/edit#gid=537547888", range = "Sex-bias estimates")
+sex_bias_mut_df = readxl::read_excel("data/Sex_bias_mutation_rate.xlsx", sheet = "Sex-bias estimates")
 
 # what does the sex bias in mutation rate estimate look like: 
 head(sex_bias_mut_df) %>% reactable()
