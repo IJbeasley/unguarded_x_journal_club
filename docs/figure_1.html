@@ -387,7 +387,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-02-11
+<strong>Last updated:</strong> 2022-04-21
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -478,25 +478,26 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomIJbeasleyunguardedxjournalclubtree8d4a42818e0faa247db3ff7207489329b5747a1btargetblank8d4a428a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/IJbeasley/unguarded_x_journal_club/tree/8d4a42818e0faa247db3ff7207489329b5747a1b" target="_blank">8d4a428</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomIJbeasleyunguardedxjournalclubtree5abf8c35bb2ae6efa7a2207ef05775777f7af616targetblank5abf8c3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/IJbeasley/unguarded_x_journal_club/tree/5abf8c35bb2ae6efa7a2207ef05775777f7af616" target="_blank">5abf8c3</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomIJbeasleyunguardedxjournalclubtree8d4a42818e0faa247db3ff7207489329b5747a1btargetblank8d4a428a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomIJbeasleyunguardedxjournalclubtree5abf8c35bb2ae6efa7a2207ef05775777f7af616targetblank5abf8c3a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/IJbeasley/unguarded_x_journal_club/tree/8d4a42818e0faa247db3ff7207489329b5747a1b" target="_blank">8d4a428</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/IJbeasley/unguarded_x_journal_club/tree/5abf8c35bb2ae6efa7a2207ef05775777f7af616" target="_blank">5abf8c3</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Untracked files:
-    Untracked:  Figure_1.pdf
-    Untracked:  SupplementaryFile3_Indonesian_eQTL_nominal.tsv
     Untracked:  figures/
+
+Unstaged changes:
+    Modified:   analysis/summary_sex_bias_mutation.Rmd
 
 </code></pre>
 <p>
@@ -535,6 +536,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/IJbeasley/unguarded_x_journal_club/blob/5abf8c35bb2ae6efa7a2207ef05775777f7af616/analysis/figure_1.Rmd" target="_blank">5abf8c3</a>
+</td>
+<td>
+Isobel Beasley
+</td>
+<td>
+2022-04-21
+</td>
+<td>
+Update Figure 1 for using dataset from data folder rather than google sheets
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/IJbeasley/unguarded_x_journal_club/2907b437eaf68ecfeb99216216124f1c3bbe25db/docs/figure_1.html" target="_blank">2907b43</a>
+</td>
+<td>
+Isobel Beasley
+</td>
+<td>
+2022-02-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -607,23 +642,20 @@ font_import()</code></pre>
 Continue? [y/n] </code></pre>
 <pre class="r"><code>loadfonts(device=&quot;win&quot;)  
 
-# only look at public sheets - so no authentication is needed
-googlesheets4::gs4_deauth()
-
 # read in sex bias mutation data.frame
-sex_bias_mut_df = googlesheets4::read_sheet(&quot;https://docs.google.com/spreadsheets/d/10ZVgeGlDpEnPG-4zLLrSBQjF7p2_9hzzIMPuIRuvogg/edit#gid=537547888&quot;, range = &quot;Sex-bias estimates&quot;)
+sex_bias_mut_df = readxl::read_excel(&quot;data/Sex_bias_mutation_rate.xlsx&quot;, sheet = &quot;Sex-bias estimates&quot;)
 
 # what does the sex bias in mutation rate estimate look like: 
 head(sex_bias_mut_df) %&gt;% reactable()</code></pre>
 <div id="htmlwidget-0bc58612b86b389075fb" class="reactable html-widget" style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-0bc58612b86b389075fb">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"authors":["Törmä,  Burny, and Schlötterer","Künstner et al.","Künstner et al.","Wilson Sayres et al.","Manuel, Wu and Przeworski","Chang et al."],"year":[2020,2010,2010,2011,2022,1994],"taxonomic_class":["Insecta","Aves","Aves","Mammalia","Mammalia","Mammalia"],"animal_name":["Fruit fly","Anna's hummingbird","Barbary dove","Hedgehog","Cat","Rodents (Mouse;Rat)"],"scientific_name":["Drosophila Melanogaster","Calypte anna","Streptopelia risoria","Erinaceus europaeus","Felis catus","Mus musculus;Rattus norvegicus"],"alpha_point_estimate":[-0.48,0.0283,0.5,0.97,0.97667172,1],"alpha_estimate_lower":[-0.53,"NA","NA",0.62,0.757043867,1.8],"alpha_estimate_upper":[-0.44,"NA","NA",1.41,1.218085898,3.2],"method_used_to_calculate_alpha":["Evolutionary method (Miyata et al. 1987; comparing X/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing Z/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing Z/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing X/Autosomes)","Evolutionary method (Miyata et al. 1987; comparing X/Autosomes)","Evolutionary method (Miyata et al. 1987, comparing X/Y)"],"upper_lower_meaning":["Lower and upper estimates are the 95% confidence interval for alpha","No confidence interval provided in article","No confidence interval provided in article","Lower and upper estimates are the 95% confidence interval for alpha","Lower and upper estimates are the 95% confidence interval for alpha","Lower and upper estimates are the 95% confidence interval for alpha"],"loci_type_for_estimate":[null,"Synonymous site","Synonymous site","Non-coding regions","Non-coding regions","Intron"],"number_of_loci_for_estimate":["Whole genome","Whole genome","Whole genome","Whole genome","Whole genome excluding pseudo-autosomal regions and repeative regions","Single gene pair (1 intron)"],"mutation_type":["Indel",null,null,null,"Nucleotide substitution","Nucleotide substitutions"],"other_notes":["Measured in mismatch-repair deficient D.melanogaster, impossible ratio as X/A for indels is >1.",null,null,null,null,"Gene pair: ZFY/ZFX"]},"columns":[{"accessor":"authors","name":"authors","type":"character"},{"accessor":"year","name":"year","type":"numeric"},{"accessor":"taxonomic_class","name":"taxonomic_class","type":"character"},{"accessor":"animal_name","name":"animal_name","type":"character"},{"accessor":"scientific_name","name":"scientific_name","type":"character"},{"accessor":"alpha_point_estimate","name":"alpha_point_estimate","type":"numeric"},{"accessor":"alpha_estimate_lower","name":"alpha_estimate_lower","type":"numeric"},{"accessor":"alpha_estimate_upper","name":"alpha_estimate_upper","type":"numeric"},{"accessor":"method_used_to_calculate_alpha","name":"method_used_to_calculate_alpha","type":"character"},{"accessor":"upper_lower_meaning","name":"upper_lower_meaning","type":"character"},{"accessor":"loci_type_for_estimate","name":"loci_type_for_estimate","type":"character"},{"accessor":"number_of_loci_for_estimate","name":"number_of_loci_for_estimate","type":"character"},{"accessor":"mutation_type","name":"mutation_type","type":"character"},{"accessor":"other_notes","name":"other_notes","type":"character"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"377f378cfc4dfebb6152e768ba07592c","key":"377f378cfc4dfebb6152e768ba07592c"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-0bc58612b86b389075fb">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"authors":["Shimmin, Chang and Li","Chang et al.","Chang and Li","Chang, Hewett-Emmett and Li","Ellegren and Fridolfsson","Huang et al."],"year":[1993,1994,1995,1996,1997,1997],"taxonomic_class":["Mammalia","Mammalia","Mammalia","Mammalia","Aves","Mammalia"],"animal_name":["Primates (Human, Orangutan, Baboons, Squirrel Monkey)","Rodents (Mouse;Rat)","Rodents (Mouse;Rat)","Primates (Human, Orangutan, Baboons, Squirrel Monkey)","Birds (Collared flycatcher;Yellowhammer)","Primates (Human, Orangutan, Squirrel Monkey)"],"scientific_name":["Homo sapiens;Pongo pygmaeus;Papio\ncynocephalus;Saimiri boliviensis","Mus musculus;Rattus norvegicus","Mus musculus;Rattus norvegicus","Homo sapiens;Pongo pygmaeus;Papio\ncynocephalus;Saimiri boliviensis","Ficedula albicollis;Emberiza citrinella","Homo sapiens;Pongo pygmaeus;Saimiri boliviensis"],"alpha_point_estimate":[6.26,1,2,4.2,3.9,5.14],"alpha_estimate_lower":[2.63,1.8,1,2.2,1.12,2.42],"alpha_estimate_upper":[32.4,3.2,3.9,10,6.68,16.6],"method_used_to_calculate_alpha":["Evolutionary method (Miyata et al. 1987, comparing X/Y)","Evolutionary method (Miyata et al. 1987, comparing X/Y)","Evolutionary method (Miyata et al. 1987, comparing X/Y)","Evolutionary method (Miyata et al. 1987, comparing X/Y)","Evolutionary method (Miyata et al. 1987; comparing Z/W)","Evolutionary method (Miyata et al. 1987, comparing X/Y)"],"upper_lower_meaning":["Lower and upper estimates are the 95% confidence interval for alpha","Lower and upper estimates are the 95% confidence interval for alpha","Lower and upper estimates are the 95% confidence interval for alpha","Lower and upper estimates are the 95% confidence interval for alpha","Lower and upper estimates are the 95% confidence interval for alpha","Lower and upper estimates are the 95% confidence interval for alpha"],"loci_type_for_estimate":["Intron","Intron","Intron","Intron","Exon","Intron"],"number_of_loci_for_estimate":["Single gene pair","Single gene pair (1 intron)","Single gene pair (3 intron)","Single gene pair","Single gene pair","Single gene pair"],"mutation_type":["Gene pair: ZFY/ZFX","Gene pair: ZFY/ZFX","Gene pair: Ube 1X/Ube 1Y","Gene pair: SMCY/SMCX","Gene pair: CHDZ / CHDW","Gene pair: AMGX/AMGY"],"other_notes":[null,null,"Used both non-synmous and synomous substitions, from the article: \"a similar estimate is obtained using synonymous substitutions (~ = 2.37), although the 95% confidence interval is larger (-0.21 to 5.10)\"",null,null,null]},"columns":[{"accessor":"authors","name":"authors","type":"character"},{"accessor":"year","name":"year","type":"numeric"},{"accessor":"taxonomic_class","name":"taxonomic_class","type":"character"},{"accessor":"animal_name","name":"animal_name","type":"character"},{"accessor":"scientific_name","name":"scientific_name","type":"character"},{"accessor":"alpha_point_estimate","name":"alpha_point_estimate","type":"numeric"},{"accessor":"alpha_estimate_lower","name":"alpha_estimate_lower","type":"numeric"},{"accessor":"alpha_estimate_upper","name":"alpha_estimate_upper","type":"numeric"},{"accessor":"method_used_to_calculate_alpha","name":"method_used_to_calculate_alpha","type":"character"},{"accessor":"upper_lower_meaning","name":"upper_lower_meaning","type":"character"},{"accessor":"loci_type_for_estimate","name":"loci_type_for_estimate","type":"character"},{"accessor":"number_of_loci_for_estimate","name":"number_of_loci_for_estimate","type":"character"},{"accessor":"mutation_type","name":"mutation_type","type":"character"},{"accessor":"other_notes","name":"other_notes","type":"character"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"9def39596755b1293e3c6eb03f34c254","key":"9def39596755b1293e3c6eb03f34c254"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 <pre class="r"><code># Set up custom theme for ggplots
 custom_theme &lt;-
   list(
     theme_bw() +
       theme(
         panel.border = element_blank(),
-        axis.line = element_line(),
+        #axis.line = element_line(),
         text = element_text(family=&quot;serif&quot;, size=20),
         legend.position = &quot;bottom&quot;,
         strip.background = element_blank(),
@@ -631,16 +663,23 @@ custom_theme &lt;-
       )
   )</code></pre>
 </div>
-<div id="figure-1-for-the-unguarded-x-paper" class="section level1">
-<h1>Figure 1 for the unguarded X paper</h1>
-<div id="suggested-steps-1122022" class="section level2">
-<h2>Suggested steps (11/2/2022)</h2>
+<div id="figure-1-for-the-unguarded-x-paper" class="section level2">
+<h2>Figure 1 for the unguarded X paper</h2>
+<div id="suggested-steps-1122022" class="section level3">
+<h3>Suggested steps (11/2/2022)</h3>
+</div>
 <div id="data-preparation" class="section level3">
 <h3>Data preparation</h3>
 <pre class="r"><code># Filter out that wildly high / unrealistic estimate for human male-bias from Wilson Sayres et al. 2011
 
 filtered_sex_bias_mut_df = sex_bias_mut_df %&gt;% 
                            filter(alpha_point_estimate&lt;20)
+
+# Filter out that negative value - for the male bias - 
+# from Drosophilla using Indels Törmä,  Burny, and Schlöttere et al. 2020
+
+filtered_sex_bias_mut_df = sex_bias_mut_df %&gt;% 
+                           filter(alpha_point_estimate&gt;0)
 
 
 # For the purposes of the figure - only include estimates for a single species at a time: 
@@ -683,56 +722,37 @@ filtered_sex_bias_mut_df = filtered_sex_bias_mut_df  %&gt;%
   theme = theme(text = element_text(family=&quot;serif&quot;, size=20))
 )</code></pre>
 <p><img src="figure/figure_1.Rmd/plot_figure_1-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>ggsave(&quot;figures/figure_1.png&quot;, width = 180, height = 120, units = &quot;mm&quot;)</code></pre>
+<div id="number-of-displayed-estimates-per-group" class="section level3">
+<h3>Number of displayed estimates per group</h3>
+<pre class="r"><code>filtered_sex_bias_mut_df  %&gt;% 
+  group_by(taxonomic_class) %&gt;% 
+  summarise(n = n())</code></pre>
+<pre><code># A tibble: 6 x 2
+  taxonomic_class     n
+  &lt;chr&gt;           &lt;int&gt;
+1 Amphibia            1
+2 Arachnida           2
+3 Aves               66
+4 Insecta             1
+5 Mammalia           42
+6 Reptilia            6</code></pre>
+<pre class="r"><code>filtered_sex_bias_mut_df  %&gt;% 
+  mutate(taxa_group = ifelse(taxonomic_class == &quot;Aves&quot; | taxonomic_class == &quot;Mammalia&quot;,
+                            taxonomic_class, &quot;Other&quot;)) %&gt;% 
+  group_by(taxa_group) %&gt;% 
+  summarise(n = n())</code></pre>
+<pre><code># A tibble: 3 x 2
+  taxa_group     n
+  &lt;chr&gt;      &lt;int&gt;
+1 Aves          66
+2 Mammalia      42
+3 Other         10</code></pre>
 </div>
-<div id="old-version-of-the-figure-for-the-paper-4022022" class="section level2">
-<h2>Old version of the figure for the paper (4/02/2022)</h2>
-<pre class="r"><code>## By Taxonomic Class
+<div id="saving-figures" class="section level3">
+<h3>Saving figures</h3>
+<pre class="r"><code>ggsave(&quot;figures/figure_1.png&quot;, width = 180, height = 120, units = &quot;mm&quot;)
 
-df= sex_bias_mut_df %&gt;% 
-  #filter(alpha_point_estimate&lt;20) %&gt;% 
-  ggplot(aes(x=alpha_point_estimate)) + 
-  geom_histogram(bins = 25) + 
-  labs(title = &quot;Distribution of sex-biased mutation rate estimates&quot;,
-        x = &quot;Point estimate of the male-biased mutation rate (alpha)&quot;,
-       y= &quot;Number of estimates&quot;) + 
-  custom_theme + 
-  geom_vline(xintercept = 1, col = &quot;red&quot;, linetype = 2, size = 2) + 
-  facet_wrap(~taxonomic_class)
-
-n_by_taxa = sex_bias_mut_df %&gt;% 
-            group_by(taxonomic_class) %&gt;% 
-            summarise(n = n()) 
-
-
-df_2 = sex_bias_mut_df %&gt;%   
-  select(authors,year,scientific_name) %&gt;% 
-  distinct() %&gt;% 
-  ggplot(aes(x=year)) + 
-  geom_histogram() + 
-  custom_theme  + 
-  labs(x = &quot;Year published*&quot;,
-       y = &quot;Number of estimates&quot;,
-       title = &quot;How many unique estimates per year?&quot;)
-
-
-df_3 = sex_bias_mut_df %&gt;%   
-  select(authors,year) %&gt;% 
-  distinct() %&gt;% 
-  ggplot(aes(x=year)) + 
-  geom_histogram() + 
-  custom_theme  + 
-  labs(x = &quot;Year published*&quot;,
-       y = &quot;Number of studies&quot;,
-       title = &quot;What year were our collated studies published?&quot;)
-
-
-library(patchwork)
-
-(df) / (df_2 + df_3)</code></pre>
-<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="figure/figure_1.Rmd/old_version_of_figure_for_the_paper-1.png" width="1920" style="display: block; margin: auto;" /></p>
+ggsave(&quot;figures/figure_2.pdf&quot;, width = 180, height = 120, units = &quot;mm&quot;)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -760,28 +780,21 @@ other attached packages:
 [5] reactable_0.2.3    dplyr_1.0.6        ggplot2_3.3.5      workflowr_1.6.2   
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.6          assertthat_0.2.1    rprojroot_2.0.2    
- [4] digest_0.6.27       utf8_1.2.1          R6_2.5.0           
- [7] cellranger_1.1.0    reactR_0.4.4        evaluate_0.14      
-[10] httr_1.4.2          highr_0.9           pillar_1.6.1       
-[13] rlang_0.4.11        googlesheets4_1.0.0 curl_4.3.1         
-[16] rstudioapi_0.13     extrafontdb_1.0     whisker_0.4        
-[19] jquerylib_0.1.4     rmarkdown_2.9       labeling_0.4.2     
-[22] googledrive_2.0.0   stringr_1.4.0       htmlwidgets_1.5.3  
-[25] munsell_0.5.0       compiler_4.1.0      httpuv_1.6.1       
-[28] xfun_0.24           pkgconfig_2.0.3     htmltools_0.5.1.1  
-[31] tidyselect_1.1.1    tibble_3.1.2        fansi_0.4.2        
-[34] crayon_1.4.1        withr_2.4.2         later_1.2.0        
-[37] grid_4.1.0          jsonlite_1.7.2      Rttf2pt1_1.3.10    
-[40] gtable_0.3.0        lifecycle_1.0.0     DBI_1.1.1          
-[43] git2r_0.29.0        magrittr_2.0.1      scales_1.1.1       
-[46] cli_3.1.0           stringi_1.6.1       farver_2.1.0       
-[49] fs_1.5.0            promises_1.2.0.1    bslib_0.2.5.1      
-[52] ellipsis_0.3.2      generics_0.1.0      vctrs_0.3.8        
-[55] rematch2_2.1.2      tools_4.1.0         glue_1.4.2         
-[58] purrr_0.3.4         crosstalk_1.1.1     yaml_2.2.1         
-[61] colorspace_2.0-1    gargle_1.2.0        knitr_1.33         
-[64] sass_0.4.0         </code></pre>
+ [1] tidyselect_1.1.1  xfun_0.24         bslib_0.2.5.1     purrr_0.3.4      
+ [5] colorspace_2.0-1  vctrs_0.3.8       generics_0.1.0    htmltools_0.5.1.1
+ [9] yaml_2.2.1        utf8_1.2.1        rlang_0.4.11      jquerylib_0.1.4  
+[13] later_1.2.0       pillar_1.6.1      reactR_0.4.4      glue_1.4.2       
+[17] withr_2.4.2       DBI_1.1.1         readxl_1.3.1      lifecycle_1.0.0  
+[21] stringr_1.4.0     munsell_0.5.0     gtable_0.3.0      cellranger_1.1.0 
+[25] htmlwidgets_1.5.3 evaluate_0.14     labeling_0.4.2    knitr_1.33       
+[29] crosstalk_1.1.1   httpuv_1.6.1      fansi_0.4.2       highr_0.9        
+[33] Rttf2pt1_1.3.10   Rcpp_1.0.6        promises_1.2.0.1  scales_1.1.1     
+[37] jsonlite_1.7.2    farver_2.1.0      fs_1.5.0          digest_0.6.27    
+[41] stringi_1.6.1     grid_4.1.0        rprojroot_2.0.2   cli_3.1.0        
+[45] tools_4.1.0       magrittr_2.0.1    sass_0.4.0        tibble_3.1.2     
+[49] crayon_1.4.1      whisker_0.4       extrafontdb_1.0   pkgconfig_2.0.3  
+[53] ellipsis_0.3.2    rstudioapi_0.13   assertthat_0.2.1  rmarkdown_2.9    
+[57] R6_2.5.0          git2r_0.29.0      compiler_4.1.0   </code></pre>
 </div>
 </div>
 </div>
