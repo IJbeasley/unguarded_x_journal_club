@@ -19,11 +19,8 @@ library(extrafont)
 font_import()
 loadfonts(device="win")  
 
-# only look at public sheets - so no authentication is needed
-googlesheets4::gs4_deauth()
-
 # read in sex bias mutation data.frame
-sex_bias_mut_df = googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/10ZVgeGlDpEnPG-4zLLrSBQjF7p2_9hzzIMPuIRuvogg/edit#gid=537547888", range = "Sex-bias estimates")
+sex_bias_mut_df = readxl::read_excel("data/Sex_bias_mutation_rate.xlsx", sheet = "Sex-bias estimates")
 
 # what does the sex bias in mutation rate estimate look like: 
 head(sex_bias_mut_df) %>% reactable()
@@ -34,7 +31,7 @@ custom_theme <-
     theme_bw() +
       theme(
         panel.border = element_blank(),
-        axis.line = element_line(),
+        #axis.line = element_line(),
         text = element_text(family="serif", size=20),
         legend.position = "bottom",
         strip.background = element_blank(),
@@ -44,9 +41,9 @@ custom_theme <-
 
 ```
 
-# Figure 1 for the unguarded X paper
+## Figure 1 for the unguarded X paper
 
-## Suggested steps (11/2/2022)
+### Suggested steps (11/2/2022)
 
 ### Data preparation 
 
@@ -56,6 +53,12 @@ custom_theme <-
 
 filtered_sex_bias_mut_df = sex_bias_mut_df %>% 
                            filter(alpha_point_estimate<20)
+
+# Filter out that negative value - for the male bias - 
+# from Drosophilla using Indels Törmä,  Burny, and Schlöttere et al. 2020
+
+filtered_sex_bias_mut_df = sex_bias_mut_df %>% 
+                           filter(alpha_point_estimate>0)
 
 
 # For the purposes of the figure - only include estimates for a single species at a time: 
@@ -102,55 +105,33 @@ filtered_sex_bias_mut_df  %>%
   theme = theme(text = element_text(family="serif", size=20))
 )
 
+```
+
+### Number of displayed estimates per group
+
+```{r}
+
+filtered_sex_bias_mut_df  %>% 
+  group_by(taxonomic_class) %>% 
+  summarise(n = n())
+
+
+filtered_sex_bias_mut_df  %>% 
+  mutate(taxa_group = ifelse(taxonomic_class == "Aves" | taxonomic_class == "Mammalia",
+                            taxonomic_class, "Other")) %>% 
+  group_by(taxa_group) %>% 
+  summarise(n = n())
+
+```
+
+
+### Saving figures
+
+```{r}
+
 ggsave("figures/figure_1.png", width = 180, height = 120, units = "mm")
 
-```
-
-## Old version of the figure for the paper (4/02/2022)
-
-```{r old_version_of_figure_for_the_paper, fig.height=15, fig.width=20}
-## By Taxonomic Class
-
-df= sex_bias_mut_df %>% 
-  #filter(alpha_point_estimate<20) %>% 
-  ggplot(aes(x=alpha_point_estimate)) + 
-  geom_histogram(bins = 25) + 
-  labs(title = "Distribution of sex-biased mutation rate estimates",
-        x = "Point estimate of the male-biased mutation rate (alpha)",
-       y= "Number of estimates") + 
-  custom_theme + 
-  geom_vline(xintercept = 1, col = "red", linetype = 2, size = 2) + 
-  facet_wrap(~taxonomic_class)
-
-n_by_taxa = sex_bias_mut_df %>% 
-            group_by(taxonomic_class) %>% 
-            summarise(n = n()) 
-
-
-df_2 = sex_bias_mut_df %>%   
-  select(authors,year,scientific_name) %>% 
-  distinct() %>% 
-  ggplot(aes(x=year)) + 
-  geom_histogram() + 
-  custom_theme  + 
-  labs(x = "Year published*",
-       y = "Number of estimates",
-       title = "How many unique estimates per year?")
-
-
-df_3 = sex_bias_mut_df %>%   
-  select(authors,year) %>% 
-  distinct() %>% 
-  ggplot(aes(x=year)) + 
-  geom_histogram() + 
-  custom_theme  + 
-  labs(x = "Year published*",
-       y = "Number of studies",
-       title = "What year were our collated studies published?")
-
-
-library(patchwork)
-
-(df) / (df_2 + df_3)
+ggsave("figures/figure_2.pdf", width = 180, height = 120, units = "mm")
 
 ```
+
