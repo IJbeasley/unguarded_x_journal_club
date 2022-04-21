@@ -389,7 +389,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-04-20
+<strong>Last updated:</strong> 2022-04-21
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -480,16 +480,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomIJbeasleyunguardedxjournalclubtree86b21f61a25e686d2afd8d6f8bdbaf4b07739d12targetblank86b21f6a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/IJbeasley/unguarded_x_journal_club/tree/86b21f61a25e686d2afd8d6f8bdbaf4b07739d12" target="_blank">86b21f6</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomIJbeasleyunguardedxjournalclubtree95ddb288389adeb19a4b6c353c0143f870d8e67dtargetblank95ddb28a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/IJbeasley/unguarded_x_journal_club/tree/95ddb288389adeb19a4b6c353c0143f870d8e67d" target="_blank">95ddb28</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomIJbeasleyunguardedxjournalclubtree86b21f61a25e686d2afd8d6f8bdbaf4b07739d12targetblank86b21f6a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomIJbeasleyunguardedxjournalclubtree95ddb288389adeb19a4b6c353c0143f870d8e67dtargetblank95ddb28a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/IJbeasley/unguarded_x_journal_club/tree/86b21f61a25e686d2afd8d6f8bdbaf4b07739d12" target="_blank">86b21f6</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/IJbeasley/unguarded_x_journal_club/tree/95ddb288389adeb19a4b6c353c0143f870d8e67d" target="_blank">95ddb28</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -497,9 +497,6 @@ Note that you need to be careful to ensure that all relevant files for the analy
 <pre><code>
 Untracked files:
     Untracked:  figures/
-
-Unstaged changes:
-    Modified:   analysis/figure_1.Rmd
 
 </code></pre>
 <p>
@@ -543,6 +540,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/IJbeasley/unguarded_x_journal_club/blob/95ddb288389adeb19a4b6c353c0143f870d8e67d/analysis/summary_sex_bias_mutation.Rmd" target="_blank">95ddb28</a>
+</td>
+<td>
+Isobel Beasley
+</td>
+<td>
+2022-04-21
+</td>
+<td>
+Update summary of datasetpage for using dataset from data folder rather than google sheets
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/IJbeasley/unguarded_x_journal_club/fc35b532fec17eb24799e54f4d20572ee957f09a/docs/summary_sex_bias_mutation.html" target="_blank">fc35b53</a>
+</td>
+<td>
+Isobel Beasley
+</td>
+<td>
+2022-04-20
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/IJbeasley/unguarded_x_journal_club/blob/86b21f61a25e686d2afd8d6f8bdbaf4b07739d12/analysis/summary_sex_bias_mutation.Rmd" target="_blank">86b21f6</a>
 </td>
 <td>
@@ -570,11 +601,8 @@ suppressMessages(library(dplyr))
 library(reactable)
 library(tidyr)
 
-# only look at public sheets - so no authentication is needed
-googlesheets4::gs4_deauth()
-
 # read in sex bias mutation data.frame
-sex_bias_mut_df = googlesheets4::read_sheet(&quot;https://docs.google.com/spreadsheets/d/10ZVgeGlDpEnPG-4zLLrSBQjF7p2_9hzzIMPuIRuvogg/edit#gid=537547888&quot;, range = &quot;Sex-bias estimates&quot;)
+sex_bias_mut_df = readxl::read_excel(&quot;data/Sex_bias_mutation_rate.xlsx&quot;, sheet = &quot;Sex-bias estimates&quot;)
 
 # what does the sex bias in mutation rate estimate look like: 
 head(sex_bias_mut_df) %&gt;% reactable()</code></pre>
@@ -866,27 +894,21 @@ other attached packages:
 [5] dplyr_1.0.6     ggplot2_3.3.5   workflowr_1.6.2
 
 loaded via a namespace (and not attached):
- [1] tidyselect_1.1.1    xfun_0.24           bslib_0.2.5.1      
- [4] rematch2_2.1.2      purrr_0.3.4         gargle_1.2.0       
- [7] colorspace_2.0-1    vctrs_0.3.8         generics_0.1.0     
-[10] htmltools_0.5.1.1   yaml_2.2.1          utf8_1.2.1         
-[13] rlang_0.4.11        jquerylib_0.1.4     later_1.2.0        
-[16] pillar_1.6.1        reactR_0.4.4        glue_1.4.2         
-[19] withr_2.4.2         DBI_1.1.1           lifecycle_1.0.0    
-[22] stringr_1.4.0       munsell_0.5.0       gtable_0.3.0       
-[25] cellranger_1.1.0    htmlwidgets_1.5.3   evaluate_0.14      
-[28] labeling_0.4.2      knitr_1.33          crosstalk_1.1.1    
-[31] httpuv_1.6.1        curl_4.3.1          fansi_0.4.2        
-[34] highr_0.9           Rcpp_1.0.6          promises_1.2.0.1   
-[37] scales_1.1.1        googlesheets4_1.0.0 jsonlite_1.7.2     
-[40] farver_2.1.0        fs_1.5.0            digest_0.6.27      
-[43] stringi_1.6.1       grid_4.1.0          rprojroot_2.0.2    
-[46] cli_3.1.0           tools_4.1.0         magrittr_2.0.1     
-[49] sass_0.4.0          tibble_3.1.2        crayon_1.4.1       
-[52] whisker_0.4         pkgconfig_2.0.3     ellipsis_0.3.2     
-[55] googledrive_2.0.0   rstudioapi_0.13     assertthat_0.2.1   
-[58] rmarkdown_2.9       httr_1.4.2          R6_2.5.0           
-[61] git2r_0.29.0        compiler_4.1.0     </code></pre>
+ [1] tidyselect_1.1.1  xfun_0.24         bslib_0.2.5.1     purrr_0.3.4      
+ [5] colorspace_2.0-1  vctrs_0.3.8       generics_0.1.0    htmltools_0.5.1.1
+ [9] yaml_2.2.1        utf8_1.2.1        rlang_0.4.11      jquerylib_0.1.4  
+[13] later_1.2.0       pillar_1.6.1      glue_1.4.2        withr_2.4.2      
+[17] reactR_0.4.4      DBI_1.1.1         readxl_1.3.1      lifecycle_1.0.0  
+[21] stringr_1.4.0     munsell_0.5.0     gtable_0.3.0      cellranger_1.1.0 
+[25] htmlwidgets_1.5.3 evaluate_0.14     labeling_0.4.2    knitr_1.33       
+[29] httpuv_1.6.1      crosstalk_1.1.1   fansi_0.4.2       highr_0.9        
+[33] Rcpp_1.0.6        promises_1.2.0.1  scales_1.1.1      jsonlite_1.7.2   
+[37] farver_2.1.0      fs_1.5.0          digest_0.6.27     stringi_1.6.1    
+[41] grid_4.1.0        rprojroot_2.0.2   cli_3.1.0         tools_4.1.0      
+[45] magrittr_2.0.1    sass_0.4.0        tibble_3.1.2      crayon_1.4.1     
+[49] whisker_0.4       pkgconfig_2.0.3   ellipsis_0.3.2    rstudioapi_0.13  
+[53] assertthat_0.2.1  rmarkdown_2.9     R6_2.5.0          git2r_0.29.0     
+[57] compiler_4.1.0   </code></pre>
 </div>
 </div>
 </div>
